@@ -2,18 +2,7 @@
 
 from BaseClasses import Item, ItemClassification
 
-# Planned items for version 1:
-# - Progressive Cup Unlock
-#
-# Planned items for future:
-# - Specific Cup Unlocks (yaml)
-# - Character Unlocks
-# - Spoiler/Kart/Hat Unlocks
-# - Time Trial Unlocks/Specific Course Unlocks
-# - Puzzle Pieces
-# - I'm sure I've forgotten some
-
-# Setting up a lot of the potential items we'll need to deal with in the future
+# Set up a lot of the potential items we'll need to deal with in the future
 # even if they don't necessarily need to exist for the v0.1 
 # Leaving room between ID groups to be able to extend them later and just for
 # clarity.
@@ -24,6 +13,7 @@ from BaseClasses import Item, ItemClassification
 # There's an argument to be made for fully writing out the item lists instead
 # of generating a bunch of them with for loops for easy ID lookup, but 
 # right now this is a whole lot easier on me.
+
 
 # This might not be the best place to put a race names list, I suspect
 # we may be re-using this in other files.
