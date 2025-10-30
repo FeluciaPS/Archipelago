@@ -72,7 +72,6 @@ for index, hat in enumerate(HAT_NAMES):
     HAT_ITEM_TABLE[f'{hat} - Bronze'] = index + 426
     HAT_ITEM_TABLE[f'{hat} - Silver'] = index + 451
     HAT_ITEM_TABLE[f'{hat} - Gold'] = index + 476
-    index += 1
 
 
 # Spoiler items reserve IDs 500-600
@@ -82,11 +81,10 @@ for index, spoiler in enumerate(SPOILER_NAMES):
     SPOILER_ITEM_TABLE[f'{spoiler} - Bronze'] = index + 526
     SPOILER_ITEM_TABLE[f'{spoiler} - Silver'] = index + 551
     SPOILER_ITEM_TABLE[f'{spoiler} - Gold'] = index + 576
-    index += 1
 
 
 # Combine them all into an items list
-ITEMS = {
+ITEM_IDS = {
     **PUZZLE_PIECE_TABLE,
     **COURSE_ITEM_TABLE,
     **TIME_TRIAL_ITEM_TABLE,
