@@ -18,7 +18,7 @@ class GarfKartWebWorld(WebWorld):
         "English",
         "setup_en.md",
         "setup/en",
-        ["Felucia"],
+        ["FeluciaPS"],
     )
 
     tutorials = [setup_en]
