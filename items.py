@@ -1,6 +1,7 @@
 
 
 from BaseClasses import Item, ItemClassification
+from worlds.garfkart.world import GarfKartWorld
 from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, CAR_NAMES, HAT_NAMES, SPOILER_NAMES
 
 # Set up a lot of the potential items we'll need to deal with in the future
@@ -47,7 +48,7 @@ CUP_ITEM_TABLE = {
 }
 
 for index, cup in enumerate(CUP_NAMES):
-    name = f'Cup Unlock {cup}'
+    name = f'Cup Unlock - {cup}'
     CUP_ITEM_TABLE[name] = index + 201
 
 
@@ -83,8 +84,16 @@ for index, spoiler in enumerate(SPOILER_NAMES):
     SPOILER_ITEM_TABLE[f'{spoiler} - Gold'] = index + 576
 
 
+# Filler items reserve IDs 1000+
+# Trap items reserve IDs 1500+
+FILLER_ITEM_TABLE = {
+    "Filler Item": 1000
+}
+TRAP_ITEM_TABLE = {}
+
+
 # Combine them all into an items list
-ITEM_IDS = {
+ITEM_NAME_TO_ID = {
     **PUZZLE_PIECE_TABLE,
     **COURSE_ITEM_TABLE,
     **TIME_TRIAL_ITEM_TABLE,
@@ -92,5 +101,68 @@ ITEM_IDS = {
     **CHARACTER_ITEM_TABLE,
     **CAR_ITEM_TABLE,
     **HAT_ITEM_TABLE,
-    **SPOILER_ITEM_TABLE
+    **SPOILER_ITEM_TABLE,
+    **FILLER_ITEM_TABLE,
+    **TRAP_ITEM_TABLE
 }
+
+# Progression items, for the time being, 
+PROGRESSION_ITEMS = COURSE_ITEM_TABLE.keys() + TIME_TRIAL_ITEM_TABLE.keys() + CUP_ITEM_TABLE.keys()
+
+class GarfKartItem(Item):
+    game = "Garfield Kart - Furious Racing"
+
+
+############# 
+# Functions #
+#############
+def get_random_filler_item(world: GarfKartWorld):
+    index = world.random.randint(0, len(FILLER_ITEM_TABLE))
+    return FILLER_ITEM_TABLE[index]
+
+def create_item_object(world: GarfKartWorld, name: str):
+    classification = ItemClassification.useful
+
+    if name in PROGRESSION_ITEMS:
+        classification = ItemClassification.progression
+
+    # Classifications
+    return GarfKartItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
+
+def create_all_items(world: GarfKartWorld) -> None:
+    itempool: list[Item] = []
+
+    # For v0.1 the only relevant items are cup unlocks, I'm gonna make Jeff 
+    # a bit sad and include both progressive and direct unlocks in v0.1
+    if world.options.progressive_cups:
+        itempool += [
+            world.create_item("Progressive Course Unlock"),
+            world.create_item("Progressive Course Unlock"),
+            world.create_item("Progressive Course Unlock"),
+        ]
+    else:
+        # For now random cups assume you want a randomized starting cup,
+        # progressive cups assume you don't.
+        shuffled_cups = CUP_NAMES
+        world.random.shuffle(shuffled_cups)
+        starting_cup_name = shuffled_cups.pop()
+        starting_cup_item = world.create_item(starting_cup_name)
+        world.push_precollected(starting_cup_item)
+
+        # Add the other 3 cups to the itempool
+        itempool += [
+            world.create_item(f'Cup Unlock - {cup}') for cup in shuffled_cups
+        ]
+
+    # Compare item pool size to location size, and fill what's left with
+    # filler items
+    item_count = len(itempool)
+    unfilled_location_count = len(world.multiworld.get_unfilled_locations(world.player))
+    filler_item_count = unfilled_location_count - item_count
+    
+    itempool += [
+        world.create_filler() for _ in range(filler_item_count)
+    ]
+
+    # Append the item pool to the world's
+    world.multiworld.itempool += itempool
