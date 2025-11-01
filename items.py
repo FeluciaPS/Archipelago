@@ -161,9 +161,9 @@ def create_all_items(world: GarfKartWorld) -> None:
     # a bit sad and include both progressive and direct unlocks in v0.1
     if world.options.progressive_cups:
         itempool += [
-            world.create_item("Progressive Course Unlock"),
-            world.create_item("Progressive Course Unlock"),
-            world.create_item("Progressive Course Unlock"),
+            world.create_item("Progressive Cup Unlock"),
+            world.create_item("Progressive Cup Unlock"),
+            world.create_item("Progressive Cup Unlock"),
         ]
     else:
         # For now random cups assume you want a randomized starting cup,
