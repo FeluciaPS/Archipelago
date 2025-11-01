@@ -38,10 +38,13 @@ def set_all_location_rules(world: GarfKartWorld):
     pass
 
 def set_completion_condition(world: GarfKartWorld):
-    # The game is considered "completed" if all cup victory events are present
-    world.multiworld.completion_condition[world.player] = lambda state: state.has_all([
-        "Lasagna Cup Victory",
-        "Pizza Cup Victory",
-        "Burger Cup Victory",
-        "Ice Cream Cup Victory"
-    ], world.player)
+    # The game can be completed if all cups are unlocked
+    if world.options.progressive_cups:
+        world.multiworld.completion_condition[world.player] = lambda state: state.has("Progressive Cup Unlock", world.player, 3)
+    else:
+        world.multiworld.completion_condition[world.player] = lambda state: state.has_all([
+            "Unlock Cup - Lasagna Cup",
+            "Unlock Cup - Pizza Cup",
+            "Unock Cup - Burger Cup",
+            "Unlock Cup - Ice Cream Cup"
+        ], world.player)

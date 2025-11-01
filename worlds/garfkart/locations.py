@@ -49,6 +49,4 @@ def create_regular_locations(world: GarfKartWorld) -> None:
         region.add_locations(location_data, GarfKartLocation)
 
 def create_events(world: GarfKartWorld) -> None:
-    for cup in CUP_NAMES:
-        region = world.get_region(cup)
-        region.add_event(f"{cup} Victory", f"{cup} Victory", location_type=GarfKartLocation, item_type=items.GarfKartItem)
+    pass
