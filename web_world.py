@@ -1,3 +1,5 @@
+
+
 # Pretty much copied verbatim from
 # https://github.com/NewSoupVi/Archipelago/blob/apquest/worlds/apquest/web_world.py
 # for the time being
@@ -5,7 +7,7 @@
 from BaseClasses import Tutorial
 from worlds.AutoWorld import WebWorld
 
-from .options import option_groups, option_presets
+from .options import option_groups
 
 
 class GarfKartWebWorld(WebWorld):
@@ -24,4 +26,3 @@ class GarfKartWebWorld(WebWorld):
     tutorials = [setup_en]
 
     option_groups = option_groups
-    options_presets = option_presets

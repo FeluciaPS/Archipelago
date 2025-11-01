@@ -1,7 +1,11 @@
-
+from __future__ import annotations
 
 from BaseClasses import Item, ItemClassification
-from worlds.garfkart.world import GarfKartWorld
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .world import GarfKartWorld
+
 from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, CAR_NAMES, HAT_NAMES, SPOILER_NAMES
 
 # Set up a lot of the potential items we'll need to deal with in the future
@@ -100,20 +104,24 @@ TRAP_ITEM_TABLE = {
 
 # Combine them all into an items list
 ITEM_NAME_TO_ID = {
-    **PUZZLE_PIECE_TABLE,
-    **COURSE_ITEM_TABLE,
-    **TIME_TRIAL_ITEM_TABLE,
-    **CUP_ITEM_TABLE,
-    **CHARACTER_ITEM_TABLE,
-    **CAR_ITEM_TABLE,
-    **HAT_ITEM_TABLE,
-    **SPOILER_ITEM_TABLE,
-    **FILLER_ITEM_TABLE,
-    **TRAP_ITEM_TABLE
+    **PUZZLE_PIECE_TABLE, # 48
+    **COURSE_ITEM_TABLE, # 16
+    **TIME_TRIAL_ITEM_TABLE, # 16
+    **CUP_ITEM_TABLE, # 4
+    **CHARACTER_ITEM_TABLE, # 8
+    **CAR_ITEM_TABLE, # 8
+    **HAT_ITEM_TABLE, # 48
+    **SPOILER_ITEM_TABLE, # 24 
+    **FILLER_ITEM_TABLE, # ???
+    **TRAP_ITEM_TABLE # ???
 }
 
 # Progression items, for the time being, 
-PROGRESSION_ITEMS = COURSE_ITEM_TABLE.keys() + TIME_TRIAL_ITEM_TABLE.keys() + CUP_ITEM_TABLE.keys()
+PROGRESSION_ITEMS = [
+    *COURSE_ITEM_TABLE,
+    *TIME_TRIAL_ITEM_TABLE,
+    *CUP_ITEM_TABLE
+]
 
 class GarfKartItem(Item):
     game = "Garfield Kart - Furious Racing"
@@ -122,17 +130,28 @@ class GarfKartItem(Item):
 ############# 
 # Functions #
 #############
-def get_random_filler_item(world: GarfKartWorld):
-    index = world.random.randint(0, len(FILLER_ITEM_TABLE))
-    return FILLER_ITEM_TABLE[index]
+def get_random_filler_item(world: GarfKartWorld) -> str:
+    return world.random.choice(list(FILLER_ITEM_TABLE))
 
 def create_item_object(world: GarfKartWorld, name: str):
     classification = ItemClassification.useful
 
+    # Progression items are progression items
     if name in PROGRESSION_ITEMS:
         classification = ItemClassification.progression
 
-    # Classifications
+    # Deprioritize puzzle pieces
+    if name in PUZZLE_PIECE_TABLE:
+        classification = ItemClassification.progression_deprioritized_skip_balancing
+
+    # Filler is filler
+    if name in FILLER_ITEM_TABLE:
+        classification = ItemClassification.filler
+
+    # Traps are traps
+    if name in TRAP_ITEM_TABLE:
+        classification = ItemClassification.trap
+
     return GarfKartItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
 
 def create_all_items(world: GarfKartWorld) -> None:
@@ -152,7 +171,7 @@ def create_all_items(world: GarfKartWorld) -> None:
         shuffled_cups = CUP_NAMES
         world.random.shuffle(shuffled_cups)
         starting_cup_name = shuffled_cups.pop()
-        starting_cup_item = world.create_item(starting_cup_name)
+        starting_cup_item = world.create_item(f'Cup Unlock - {starting_cup_name}')
         world.push_precollected(starting_cup_item)
 
         # Add the other 3 cups to the itempool
