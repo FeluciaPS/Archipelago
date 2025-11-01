@@ -45,6 +45,6 @@ def set_completion_condition(world: GarfKartWorld):
         world.multiworld.completion_condition[world.player] = lambda state: state.has_all([
             "Unlock Cup - Lasagna Cup",
             "Unlock Cup - Pizza Cup",
-            "Unock Cup - Burger Cup",
+            "Unlock Cup - Burger Cup",
             "Unlock Cup - Ice Cream Cup"
         ], world.player)
