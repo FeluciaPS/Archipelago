@@ -43,8 +43,8 @@ def set_completion_condition(world: GarfKartWorld):
         world.multiworld.completion_condition[world.player] = lambda state: state.has("Progressive Cup Unlock", world.player, 3)
     else:
         world.multiworld.completion_condition[world.player] = lambda state: state.has_all([
-            "Unlock Cup - Lasagna Cup",
-            "Unlock Cup - Pizza Cup",
-            "Unlock Cup - Burger Cup",
-            "Unlock Cup - Ice Cream Cup"
+            "Cup Unlock - Lasagna Cup",
+            "Cup Unlock - Pizza Cup",
+            "Cup Unlock - Burger Cup",
+            "Cup Unlock - Ice Cream Cup"
         ], world.player)
