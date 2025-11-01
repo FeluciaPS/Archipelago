@@ -87,9 +87,15 @@ for index, spoiler in enumerate(SPOILER_NAMES):
 # Filler items reserve IDs 1000+
 # Trap items reserve IDs 1500+
 FILLER_ITEM_TABLE = {
-    "Filler Item": 1000
+    "Filler Item": 1000, # Does nothing, delete later in dev
+    "Item - Spring": 1001, # Gives spring next time player has an empty item slot
+    "Item - Pie": 1002, # Gives pie next time player has an empty item slot
+    "Random Item Box": 1003, # Gives random item box next time player has an empty item slot
+    "Start Boost Helper (Single Use)": 1004, # Guarantees perfect boost at start of next race
 }
-TRAP_ITEM_TABLE = {}
+TRAP_ITEM_TABLE = {
+    "Mirror Trap": 1500 # Mirrors all tracks until you beat one race
+}
 
 
 # Combine them all into an items list
@@ -160,6 +166,11 @@ def create_all_items(world: GarfKartWorld) -> None:
     unfilled_location_count = len(world.multiworld.get_unfilled_locations(world.player))
     filler_item_count = unfilled_location_count - item_count
     
+    if world.options.goal != "puzzle_piece_hunt":
+        # TODO: Down the line we can add puzzle pieces as filler items when 
+        # they're not progression items
+        pass
+
     itempool += [
         world.create_filler() for _ in range(filler_item_count)
     ]
