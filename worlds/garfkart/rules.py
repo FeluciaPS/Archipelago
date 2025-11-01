@@ -25,9 +25,9 @@ def set_all_entrance_rules(world: GarfKartWorld):
     ice_cream_cup = world.get_entrance("Menu to Ice Cream Cup")
 
     if world.options.progressive_cups:
-        set_rule(pizza_cup, lambda state: state.has("Progressive Cup", world.player, 1))
-        set_rule(burger_cup, lambda state: state.has("Progressive Cup", world.player, 2))
-        set_rule(ice_cream_cup, lambda state: state.has("Progressive Cup", world.player, 3))
+        set_rule(pizza_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 1))
+        set_rule(burger_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 2))
+        set_rule(ice_cream_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 3))
     else:
         set_rule(lasagna_cup, lambda state: state.has("Cup Unlock - Lasagna Cup", world.player))
         set_rule(pizza_cup, lambda state: state.has("Cup Unlock - Pizza Cup", world.player))
