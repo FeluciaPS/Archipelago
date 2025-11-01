@@ -1,4 +1,5 @@
-from Options import Choice, Range, Toggle
+from dataclasses import dataclass
+from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
 
 class Goal(Choice):
     """
@@ -35,3 +36,21 @@ class ProgressiveCups(Toggle):
     """
     display_name = "Progressive Cups"
 
+
+@dataclass
+class GarfKartOptions(PerGameCommonOptions):
+    goal: Goal
+    puzzle_piece_count: PuzzlePieceCount
+    progressive_cups: ProgressiveCups
+
+
+option_groups = [
+    OptionGroup(
+        "Goal Options",
+        [Goal, PuzzlePieceCount],
+    ),
+    OptionGroup(
+        "Randomizer Options",
+        [ProgressiveCups],
+    ),
+]
