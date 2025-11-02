@@ -19,10 +19,13 @@ def set_all_rules(world: GarfKartWorld):
     set_completion_condition(world)
 
 def set_all_entrance_rules(world: GarfKartWorld):
-    lasagna_cup = world.get_entrance("Menu to Lasagna Cup")
-    pizza_cup = world.get_entrance("Menu to Pizza Cup")
-    burger_cup = world.get_entrance("Menu to Burger Cup")
-    ice_cream_cup = world.get_entrance("Menu to Ice Cream Cup")
+    pass # no entrances as of now
+
+def set_all_location_rules(world: GarfKartWorld):
+    lasagna_cup = world.get_location("Lasagna Cup: Victory")
+    pizza_cup = world.get_location("Pizza Cup: Victory")
+    burger_cup = world.get_location("Burger Cup: Victory")
+    ice_cream_cup = world.get_location("Ice Cream Cup: Victory")
 
     if world.options.progressive_cups:
         set_rule(pizza_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 1))
@@ -33,9 +36,6 @@ def set_all_entrance_rules(world: GarfKartWorld):
         set_rule(pizza_cup, lambda state: state.has("Cup Unlock - Pizza Cup", world.player))
         set_rule(burger_cup, lambda state: state.has("Cup Unlock - Burger Cup", world.player))
         set_rule(ice_cream_cup, lambda state: state.has("Cup Unlock - Ice Cream Cup", world.player))
-
-def set_all_location_rules(world: GarfKartWorld):
-    pass
 
 def set_completion_condition(world: GarfKartWorld):
     # The game can be completed if all cups are unlocked

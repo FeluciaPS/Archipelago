@@ -28,6 +28,10 @@ class GarfKartWorld(World):
 
     origin_region_name = "Menu"
 
+    def generate_early(self):
+        if self.options.goal == "puzzle_piece_hunt":
+            self.options.randomize_puzzle_pieces = True
+
     def create_regions(self) -> None:
         regions.create_and_connect_regions(self)
         locations.create_all_locations(self)
