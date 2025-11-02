@@ -14,6 +14,8 @@ from __future__ import annotations
 from BaseClasses import Region
 
 from typing import TYPE_CHECKING
+
+from worlds.garfkart.data import RACE_NAMES
 if TYPE_CHECKING:
     from .world import GarfKartWorld
 
@@ -26,29 +28,20 @@ def create_regions(world: GarfKartWorld):
     # For the time being each cup is a region but eventually we'll probably
     # have to split it by race
     menu = Region("Menu", world.player, world.multiworld)
-    lasagna_cup = Region("Lasagna Cup", world.player, world.multiworld)
-    pizza_cup = Region("Pizza Cup", world.player, world.multiworld)
-    burger_cup = Region("Burger Cup", world.player, world.multiworld)
-    ice_cream_cup = Region("Ice Cream Cup", world.player, world.multiworld)
-
+    
     regions = [
-        menu,
-        lasagna_cup,
-        pizza_cup,
-        burger_cup,
-        ice_cream_cup,
+        menu
+    ]
+
+    regions += [
+        Region(race, world.player, world.multiworld) for race in RACE_NAMES
     ]
 
     world.multiworld.regions += regions
 
 def connect_regions(world: GarfKartWorld):
     menu = world.get_region("Menu")
-    lasagna_cup = world.get_region("Lasagna Cup")
-    pizza_cup = world.get_region("Pizza Cup")
-    burger_cup = world.get_region("Burger Cup")
-    ice_cream_cup = world.get_region("Ice Cream Cup")
 
-    menu.connect(lasagna_cup, "Menu to Lasagna Cup")
-    menu.connect(pizza_cup, "Menu to Pizza Cup")
-    menu.connect(burger_cup, "Menu to Burger Cup")
-    menu.connect(ice_cream_cup, "Menu to Ice Cream Cup")
+    for race in RACE_NAMES:
+        region = world.get_region(race)
+        menu.connect(region, f'Menu to {race}')
