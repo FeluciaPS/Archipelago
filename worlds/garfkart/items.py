@@ -152,8 +152,8 @@ def create_item_object(world: GarfKartWorld, name: str):
 
     # Deprioritize puzzle pieces
     if name in PUZZLE_PIECE_TABLE:
-        if world.options.goal == "puzzle_piece_hunt":
-            classification = ItemClassification.progression_deprioritized_skip_balancing
+        if world.options.randomize_puzzle_pieces:
+            classification = ItemClassification.progression
         else:
             classification = ItemClassification.filler
 

@@ -44,4 +44,4 @@ def connect_regions(world: GarfKartWorld):
 
     for race in RACE_NAMES:
         region = world.get_region(race)
-        menu.connect(region, f'Menu to {race}')
+        menu.connect(region, race)

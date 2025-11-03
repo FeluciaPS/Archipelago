@@ -9,11 +9,10 @@ from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, Vi
 class Goal(Choice):
     """
     Determines what your goal is to consider the game beaten.
-    (as of v0.1 only Grand Prix is implemented)
 
     - Grand Prix: Get first place in every grand prix cup
-    - Races: Get first place in every race
-    - Time Trials: Gain medals in all time trials
+    - Races: Get first place in every race (DOES NOT WORK)
+    - Time Trials: Gain medals in all time trials (DOES NOT WORK)
     - Puzzle Piece Hunt: Collect puzzle pieces
     """
     display_name = "Goal"
@@ -30,7 +29,7 @@ class CCRequirement(Choice):
 
     If the goal is not one of those, this option does nothing.
     """
-    visibility = Visibility.none # Hidden until implemented
+    visibility = Visibility.none # Not implemented
 
     display_name = "CC Requirement"
 
@@ -46,6 +45,8 @@ class PuzzlePieceCount(Range):
 
     If the goal is not Puzzle Piece Hunt, this option does nothing.
     """
+    visibility = Visibility.none # Not implemented
+
     display_name = "Puzzle Piece Count"
 
     range_start = 1
@@ -61,6 +62,8 @@ class TimeTrialGoalGrade(Choice):
 
     If the goal is not Time Trials, this option does nothing.
     """
+    visibility = Visibility.none # Not implemented
+
     display_name = "Time Trials Goal Grade"
 
     default = 0
@@ -73,11 +76,31 @@ class TimeTrialGoalGrade(Choice):
 ##
 # Randomizer Options
 ##
+class RandomizeRaces(Choice):
+    """
+    Sets whether to shuffle race unlocks into the item pool
+
+    - Cups: Grand Prix cup unlocks are shuffled into the item pool, races unlock when you unlock their cup
+    - Races: Race unlocks are shuffled into the item pool, cups unlock when you've unlocked all races in them
+    - Cups and Races: Race and cup unlocks are shuffled into the item pool, playing a cup requires all 4 races and the cup item
+    """
+    visibility = Visibility.none # Only cups works, so we set it to invisible and default to cups
+
+    display_name = "Randomize Races"
+    default = 1
+
+    option_off = 0
+    option_cups = 1
+    option_races = 2
+    option_cups_and_races = 3
+
 class ProgressiveCups(Toggle):
     """
     Starts the game with the first cup onlocked, then unlocks them in order
     every time a "Cup Unlock" item is found.
     Turning this off unlocks cups in random order with their specific items.
+
+    This option does nothing if cups aren't randomized
     """
     display_name = "Progressive Cups"
 
@@ -92,6 +115,8 @@ class RandomizeHats(Choice):
 
     !!!IMPORTANT!! only gold-only will be implemented in early versions
     """
+    visibility = Visibility.none # Not implemented
+
     display_name = "Randomize Hats"
     default = 0
 
@@ -111,6 +136,8 @@ class RandomizeSpoilers(Choice):
 
     !!!IMPORTANT!! only gold-only will be implemented in early versions
     """
+    visibility = Visibility.none # Not implemented
+
     display_name = "Randomize Spoilers"
     default = 0
 
@@ -137,6 +164,7 @@ class GarfKartOptions(PerGameCommonOptions):
     time_trial_goal_grade: TimeTrialGoalGrade
 
     # Randomizer Options
+    randomize_races: RandomizeRaces
     progressive_cups: ProgressiveCups
     randomize_hats: RandomizeHats
     randomize_spoilers: RandomizeSpoilers
@@ -150,6 +178,6 @@ option_groups = [
     ),
     OptionGroup(
         "Randomizer Options",
-        [ProgressiveCups, RandomizeSpoilers, RandomizeHats, RandomizePuzzlePieces],
+        [RandomizeRaces, ProgressiveCups, RandomizeSpoilers, RandomizeHats, RandomizePuzzlePieces],
     ),
 ]
