@@ -2,23 +2,50 @@ from __future__ import annotations
 
 
 RACE_NAMES = [
-    "City Slicker",
-    "Mally Market",
-    "Play Misty For Me",
-    "Prohibited Site",
-    "Catz In The Hood",
-    "Spooky Manor",
-    "Pastacosi Factory",
-    "Caskou Park",
-    "Palerock Lake",
-    "Country Bumpkin",
-    "Sneak-A-Peak",
-    "Loopy Lagoon",
+    "Catz in the Hood",
     "Crazy Dunes",
-    "Valley Of The Kings",
+    "Palerock Lake",
+    "City Slicker",
+    "Country Bumpkin",
+    "Spooky Manor",
+    "Mally Market",
+    "Valley of the Kings",
+    "Misty for Me",
+    "Sneak-a-Peak",
     "Blazing Oasis",
+    "Pastacosi Factory",
     "Mysterious Temple",
+    "Prohibited Site",
+    "Caskou Park",
+    "Loopy Lagoon"
 ]
+
+RACES_BY_CUP = {
+    "Lasagna Cup": [
+        "Catz in the Hood",
+        "Crazy Dunes",
+        "Palerock Lake",
+        "City Slicker"
+    ],
+    "Pizza Cup": [
+        "Country Bumpkin",
+        "Spooky Manor",
+        "Mally Market",
+        "Valley of the Kings"
+    ],
+    "Burger Cup": [
+        "Misty for Me",
+        "Sneak-a-Peak",
+        "Blazing Oasis",
+        "Pastacosi Factory"
+    ],
+    "Ice Cream Cup": [
+        "Mysterious Temple",
+        "Prohibited Site",
+        "Caskou Park",
+        "Loopy Lagoon"
+    ]
+}
 
 CUP_NAMES = [
     "Lasagna Cup",

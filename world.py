@@ -28,9 +28,16 @@ class GarfKartWorld(World):
 
     origin_region_name = "Menu"
 
+    def pre_fill(self):
+        from BaseClasses import CollectionState
+        from Fill import sweep_from_pool
+        state = sweep_from_pool(CollectionState(self.multiworld), self.multiworld.itempool)
+        unreachable_locations = [location for location in self.get_locations() if not location.can_reach(state)]
+        assert not unreachable_locations, f"All state can't reach all locations: {unreachable_locations}"
+
     def generate_early(self):
         if self.options.goal == "puzzle_piece_hunt":
-            self.options.randomize_puzzle_pieces = True
+            self.options.randomize_puzzle_pieces.value = True
 
     def create_regions(self) -> None:
         regions.create_and_connect_regions(self)

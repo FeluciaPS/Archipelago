@@ -122,7 +122,7 @@ def create_regular_locations(world: GarfKartWorld) -> None:
             # ~Felucia
             location_data = get_locations_by_key_substring(PUZZLE_PIECE_LOCATION_TABLE, race)
             region = world.get_region(race)
-            region.add_locations(location_data)
+            region.add_locations(location_data, GarfKartLocation)
             
 
 def create_events(world: GarfKartWorld) -> None:
