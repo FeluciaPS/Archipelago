@@ -111,7 +111,7 @@ SPOILER_NAMES = [
 # Some puzzle pieces logically require items which is relevant for the planned
 # item randomizer
 class PuzzlePieceRequirements:
-    Nothing = 0
+    Nothing = 0 # Probably unused 
     Spring = 1 # Spring
     Lasagna = 2 # Lasagna (unused)
     Either = 3 # Lasagna or Spring
