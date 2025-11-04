@@ -47,7 +47,7 @@ class GarfKartWorld(World):
         rules.set_all_rules(self)
 
     def create_items(self) -> None:
-        items.create_all_items(self)
+        items.create_itempool(self)
 
     def create_item(self, name: str) -> items.GarfKartItem:
         return items.create_item_object(self, name)
