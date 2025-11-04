@@ -1,6 +1,8 @@
+"""Contains data objects used to generate items, locations, and rules"""
 from __future__ import annotations
 
 
+# List of race names in order of appearance
 RACE_NAMES = [
     "Catz in the Hood",
     "Crazy Dunes",
@@ -20,6 +22,7 @@ RACE_NAMES = [
     "Loopy Lagoon"
 ]
 
+# Dict of races in each cup
 RACES_BY_CUP = {
     "Lasagna Cup": [
         "Catz in the Hood",
@@ -47,6 +50,8 @@ RACES_BY_CUP = {
     ]
 }
 
+# List of cup names in order of appearance
+# The order of these matters for Progressive Cup Unlock logic
 CUP_NAMES = [
     "Lasagna Cup",
     "Pizza Cup",
@@ -116,9 +121,7 @@ class PuzzlePieceRequirements:
     Lasagna = 2 # Lasagna (unused)
     Either = 3 # Lasagna or Spring
 
-"""
-Dictionary of puzzle pieces and their required items
-"""
+# Dictionary of puzzle pieces and their required items
 PUZZLE_PIECE_REQUIREMENTS = {
     "Catz in the Hood": {
         2: PuzzlePieceRequirements.Spring,
