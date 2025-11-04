@@ -6,7 +6,7 @@ from __future__ import annotations
 # I hope.
 
 
-from .data import RACE_NAMES, RACES_BY_CUP
+from .data import CUP_NAMES, RACE_NAMES, RACES_BY_CUP
 from worlds.generic.Rules import set_rule
 
 from typing import TYPE_CHECKING
@@ -20,7 +20,10 @@ def set_all_rules(world: GarfKartWorld):
     set_completion_condition(world)
 
 def set_all_entrance_rules(world: GarfKartWorld):
+    # TODO: It'd be a whole lot easier to split options for randomize_races
+    # and randomize_cups for logic purposes
     if world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races":
+
         # If races are randomized, each race is only accessible if you have the race item
         for race in RACE_NAMES:
             entrance = world.get_entrance(f'Menu to {race}')
@@ -33,20 +36,20 @@ def set_all_entrance_rules(world: GarfKartWorld):
         if world.options.progressive_cups:
 
             # Progressive cup unlocks require n Progressive Cup Unlock items to unlock their races
-            for index, cup in enumerate(RACES_BY_CUP):
+            for index, cup in enumerate(CUP_NAMES): 
                 if index > 0:
                     for race in RACES_BY_CUP[cup]:
                         entrance = world.get_entrance(race)
                         set_rule(entrance, lambda state: state.has("Progressive Cup Unlock", world.player, index))
-
         else:
 
             # Regular cup unlocks simply require the item to unlock their races
-            for cup in RACES_BY_CUP:
+            for cup in CUP_NAMES:
                 for race in RACES_BY_CUP[cup]:
                     entrance = world.get_entrance(race)
                     set_rule(entrance, lambda state: state.has(f"Cup Unlock - {cup}", world.player))
     else:
+        
         # Otherwise, races are always unlocked
         pass
 
