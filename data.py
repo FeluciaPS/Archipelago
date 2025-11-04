@@ -107,3 +107,75 @@ SPOILER_NAMES = [
     "Holey Moley Spoiler",
     "Stained Spoiler",
 ]
+
+# Some puzzle pieces logically require items which is relevant for the planned
+# item randomizer
+class PuzzlePieceRequirements:
+    Nothing = 0
+    Spring = 1 # Spring
+    Lasagna = 2 # Lasagna (unused)
+    Either = 3 # Lasagna or Spring
+
+"""
+Dictionary of puzzle pieces and their required items
+"""
+PUZZLE_PIECE_REQUIREMENTS = {
+    "Catz in the Hood": {
+        2: PuzzlePieceRequirements.Spring,
+    },
+    "Crazy Dunes": {
+        1: PuzzlePieceRequirements.Spring,
+        2: PuzzlePieceRequirements.Spring,
+        3: PuzzlePieceRequirements.Either,
+    },
+    "Palerock Lake": {},
+    "City Slicker": {
+        1: PuzzlePieceRequirements.Spring,
+        2: PuzzlePieceRequirements.Spring,
+        3: PuzzlePieceRequirements.Spring,
+    },
+    "Country Bumpkin": {},
+    "Spooky Manor": {
+        1: PuzzlePieceRequirements.Spring,
+        3: PuzzlePieceRequirements.Spring,
+    },
+    "Mally Market": {
+        1: PuzzlePieceRequirements.Spring,
+        3: PuzzlePieceRequirements.Spring,
+    },
+    "Valley of the Kings": {
+        2: PuzzlePieceRequirements.Spring,
+    },
+    "Misty for Me": {
+        1: PuzzlePieceRequirements.Spring,
+        2: PuzzlePieceRequirements.Spring,
+        3: PuzzlePieceRequirements.Spring,
+    },
+    "Sneak-a-Peak": {
+        1: PuzzlePieceRequirements.Spring,
+        2: PuzzlePieceRequirements.Spring,
+    },
+    "Blazing Oasis": {
+        1: PuzzlePieceRequirements.Spring,
+        2: PuzzlePieceRequirements.Spring,
+        3: PuzzlePieceRequirements.Either,
+    },
+    "Pastacosi Factory": {
+        1: PuzzlePieceRequirements.Spring,
+    },
+    "Mysterious Temple": {
+        1: PuzzlePieceRequirements.Spring,
+        2: PuzzlePieceRequirements.Spring,
+        3: PuzzlePieceRequirements.Spring,
+    },
+    "Prohibited Site": {
+        1: PuzzlePieceRequirements.Spring,
+        3: PuzzlePieceRequirements.Spring,
+    },
+    "Caskou Park": {
+        3: PuzzlePieceRequirements.Spring,
+    },
+    "Loopy Lagoon": {
+        3: PuzzlePieceRequirements.Spring,
+    },
+}
