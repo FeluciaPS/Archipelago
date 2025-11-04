@@ -1,22 +1,23 @@
+# This file defines all locations that contain items, including ones that may not
+# make it into the final release. I'd rather cast a wide net and delete things later
+# than find out halfway through development that I'm missing a location and need to go
+# back and patch it in.
+#
+# To match the convention set by items.py, all location IDs start at XX1 
+# rather than XX0
+ 
 from __future__ import annotations
-
-
-# This file defines all locations that contain items.
-# for the first version those locations will just be 4 simple locations:
-# - Beat Cup 1
-# - Beat Cup 2
-# - Beat Cup 3
-# - Beat Cup 4
-# (Yes, I can't be bothered to look up the cup names right now)
-
-from BaseClasses import Location
-from .data import CAR_NAMES, CHARACTER_NAMES, CUP_NAMES, RACE_NAMES
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .world import GarfKartWorld
 
-# Locations for winning cups 
+from BaseClasses import Location
+from .data import CAR_NAMES, CHARACTER_NAMES, CUP_NAMES, RACE_NAMES
+
+
+# Locations for winning cups are short enough to hardcode instead of generating
+# from CUP_NAMES
 CUP_LOCATION_TABLE = {
     "Lasagna Cup: Victory": 101,
     "Pizza Cup: Victory": 102,
@@ -95,10 +96,11 @@ LOCATION_NAME_TO_ID = {
 class GarfKartLocation(Location):
     game = "Garfield Kart - Furious Racing"
 
-# Return a filtered dictionary of location names and IDs based on an input list of names
+# Returns a filtered dictionary of location names and IDs based on an input list of names
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
     return {location_name: LOCATION_NAME_TO_ID[location_name] for location_name in location_names}
 
+# Returns all locations matching a substring
 def get_locations_by_key_substring(locations: dict, substring: str):
     return {location: id for location, id in locations.items() if substring in location}
 
@@ -107,12 +109,14 @@ def create_all_locations(world: GarfKartWorld) -> None:
     create_events(world)
 
 def create_regular_locations(world: GarfKartWorld) -> None:
+
     # Add cup victory locations
-    # TODO: This probably depends on some yaml option
-    for cup in CUP_NAMES:
-        location_data = get_location_names_with_ids([f"{cup}: Victory"])
-        region = world.get_region("Menu")
-        region.add_locations(location_data, GarfKartLocation)
+    # TODO: I don't like the "or" necessary here, I'll think about it... -Felucia
+    if world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races":
+        for cup in CUP_NAMES:
+            location_data = get_location_names_with_ids([f"{cup}: Victory"])
+            region = world.get_region("Menu")
+            region.add_locations(location_data, GarfKartLocation)
 
     # Add puzzle pieces
     if world.options.randomize_puzzle_pieces:

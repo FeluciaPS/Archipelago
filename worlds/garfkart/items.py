@@ -1,13 +1,3 @@
-from __future__ import annotations
-
-from BaseClasses import Item, ItemClassification
-
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from .world import GarfKartWorld
-
-from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, CAR_NAMES, HAT_NAMES, SPOILER_NAMES
-
 # This file should cover every item we could possibly need, even ones that are
 # unimplemented as of writing this. There's a small chance we'll need to clean
 # up unused ones on a full release
@@ -18,6 +8,15 @@ from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, CAR_NAMES, HAT_NAMES, 
 # There's an argument to be made for fully writing out the item lists instead
 # of generating a bunch of them with for loops for easy ID lookup, but 
 # right now this is a whole lot easier on me.
+ 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .world import GarfKartWorld
+
+from BaseClasses import Item, ItemClassification
+from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, CAR_NAMES, HAT_NAMES, SPOILER_NAMES
 
 
 # Puzzle Pieces are named by race and numbered 1-3 to match the order 
