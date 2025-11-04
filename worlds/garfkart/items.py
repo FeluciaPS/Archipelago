@@ -8,10 +8,9 @@ if TYPE_CHECKING:
 
 from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, CAR_NAMES, HAT_NAMES, SPOILER_NAMES
 
-# Set up a lot of the potential items we'll need to deal with in the future
-# even if they don't necessarily need to exist for the v0.1 
-# Leaving room between ID groups to be able to extend them later and just for
-# clarity.
+# This file should cover every item we could possibly need, even ones that are
+# unimplemented as of writing this. There's a small chance we'll need to clean
+# up unused ones on a full release
 #
 # The first ID (000, 100, 150) in every group is reserved for a progressive
 # unlock item, even if one doesn't exist
@@ -21,11 +20,8 @@ from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, CAR_NAMES, HAT_NAMES, 
 # right now this is a whole lot easier on me.
 
 
-# Puzzle pieces reserve IDs 0-100. 
-# They're named by race name and numbered 1-3
-# 
-# Course items reserve IDs 100-150.
-# Time trial items reserve IDs 150-200.
+# Puzzle Pieces are named by race and numbered 1-3 to match the order 
+# in which they are displayed in-game
 PUZZLE_PIECE_TABLE = {}
 COURSE_ITEM_TABLE = {
     "Progressive Course Unlock": 100
@@ -141,6 +137,9 @@ class GarfKartItem(Item):
 def get_random_filler_item(world: GarfKartWorld) -> str:
     # Hardcode filler items to be blank items that do nothing
     return "Filler Item"
+
+    # TODO: Include traps
+    # TODO: Optionally include puzzle pieces, since they're filler when not the goal
     return world.random.choice(list(FILLER_ITEM_TABLE))
 
 def create_item_object(world: GarfKartWorld, name: str):
@@ -153,11 +152,11 @@ def create_item_object(world: GarfKartWorld, name: str):
     # Deprioritize puzzle pieces
     if name in PUZZLE_PIECE_TABLE:
         if world.options.randomize_puzzle_pieces:
-            classification = ItemClassification.progression
+            classification = ItemClassification.progression_deprioritized_skip_balancing
         else:
             classification = ItemClassification.filler
 
-    # Filler is filler
+    # Filler is filler (no way!)
     if name in FILLER_ITEM_TABLE:
         classification = ItemClassification.filler
 
@@ -167,20 +166,22 @@ def create_item_object(world: GarfKartWorld, name: str):
 
     return GarfKartItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
 
-def create_all_items(world: GarfKartWorld) -> None:
+def create_itempool(world: GarfKartWorld) -> None:
     itempool: list[Item] = []
 
     # For v0.1 the only relevant items are cup unlocks, I'm gonna make Jeff 
     # a bit sad and include both progressive and direct unlocks in v0.1
     if world.options.progressive_cups:
+
         itempool += [
             world.create_item("Progressive Cup Unlock"),
             world.create_item("Progressive Cup Unlock"),
             world.create_item("Progressive Cup Unlock"),
         ]
     else:
+
         # For now random cups assume you want a randomized starting cup,
-        # progressive cups assume you don't.
+        # but I suppose you could just want to start with Lasagna cup?
         shuffled_cups = CUP_NAMES
         world.random.shuffle(shuffled_cups)
         starting_cup_name = shuffled_cups.pop()
@@ -194,11 +195,12 @@ def create_all_items(world: GarfKartWorld) -> None:
 
     # randomize_puzzle_pieces is automatically set to True if the goal is 
     # Puzzle Piece Hunt, so we don't need to check both.
+    # TODO: Above comment is lying. We need to check both if we want to put them in the filler pool
     if world.options.randomize_puzzle_pieces:
         itempool += [world.create_item(piece) for piece in list(PUZZLE_PIECE_TABLE)]
 
     # Compare item pool size to location size, and fill what's left with
-    # filler items
+    # filler items.
     item_count = len(itempool)
     unfilled_location_count = len(world.multiworld.get_unfilled_locations(world.player))
     filler_item_count = unfilled_location_count - item_count
