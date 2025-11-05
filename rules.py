@@ -77,7 +77,7 @@ def set_all_entrance_rules(world: GarfKartWorld):
         if len(required_items) == 0:
             continue
 
-        set_rule(cup_entrance, lambda state: state.has_all(required_items, world.player))
+        set_rule(cup_entrance, lambda state: state.has_all_counts(required_items, world.player))
 
     # Set race unlock rules
     for race in RACE_NAMES:
@@ -92,7 +92,7 @@ def set_all_entrance_rules(world: GarfKartWorld):
         if len(required_items) == 0:
             continue
 
-        set_rule(race_entrance, lambda state: state.has_all(required_items, world.player))
+        set_rule(race_entrance, lambda state: state.has_all_counts(required_items, world.player))
 
 def set_all_location_rules(world: GarfKartWorld):
     lasagna_cup = world.get_location("Lasagna Cup: Victory")
