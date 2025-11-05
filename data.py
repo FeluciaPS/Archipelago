@@ -50,6 +50,11 @@ RACES_BY_CUP = {
     ]
 }
 
+CUPS_BY_RACE = {}
+for cup in RACES_BY_CUP:
+    for race in RACES_BY_CUP[cup]:
+        CUPS_BY_RACE[race] = cup
+
 # List of cup names in order of appearance
 # The order of these matters for Progressive Cup Unlock logic
 CUP_NAMES = [
