@@ -168,29 +168,44 @@ def create_item_object(world: GarfKartWorld, name: str):
 def create_itempool(world: GarfKartWorld) -> None:
     itempool: list[Item] = []
 
-    # For v0.1 the only relevant items are cup unlocks, I'm gonna make Jeff 
-    # a bit sad and include both progressive and direct unlocks in v0.1
-    if world.options.progressive_cups:
+    randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
+    randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
+
+    # Add race victory locations
+    if randomize_races:
+        shuffled_races = RACE_NAMES
+        world.random.shuffle(shuffled_races)
+        starting_race_name = shuffled_races.pop()
+        starting_race_item = world.create_item(f'Course Unlock - {starting_race_name}')
+        world.push_precollected(starting_race_item)
 
         itempool += [
-            world.create_item("Progressive Cup Unlock"),
-            world.create_item("Progressive Cup Unlock"),
-            world.create_item("Progressive Cup Unlock"),
+            world.create_item(f'Course Unlock - {race}') for race in shuffled_races
         ]
-    else:
 
-        # For now random cups assume you want a randomized starting cup,
-        # but I suppose you could just want to start with Lasagna cup?
-        shuffled_cups = CUP_NAMES
-        world.random.shuffle(shuffled_cups)
-        starting_cup_name = shuffled_cups.pop()
-        starting_cup_item = world.create_item(f'Cup Unlock - {starting_cup_name}')
-        world.push_precollected(starting_cup_item)
+    # Add cup victory locations
+    if randomize_cups:
+        if world.options.progressive_cups:
 
-        # Add the other 3 cups to the itempool
-        itempool += [
-            world.create_item(f'Cup Unlock - {cup}') for cup in shuffled_cups
-        ]
+            itempool += [
+                world.create_item("Progressive Cup Unlock"),
+                world.create_item("Progressive Cup Unlock"),
+                world.create_item("Progressive Cup Unlock"),
+            ]
+        else:
+
+            # For now random cups assume you want a randomized starting cup,
+            # but I suppose you could just want to start with Lasagna cup?
+            shuffled_cups = CUP_NAMES
+            world.random.shuffle(shuffled_cups)
+            starting_cup_name = shuffled_cups.pop()
+            starting_cup_item = world.create_item(f'Cup Unlock - {starting_cup_name}')
+            world.push_precollected(starting_cup_item)
+
+            # Add the other 3 cups to the itempool
+            itempool += [
+                world.create_item(f'Cup Unlock - {cup}') for cup in shuffled_cups
+            ]
 
     # randomize_puzzle_pieces is automatically set to True if the goal is 
     # Puzzle Piece Hunt, so we don't need to check both.
