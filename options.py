@@ -11,7 +11,7 @@ class Goal(Choice):
     Determines what your goal is to consider the game beaten.
 
     - Grand Prix: Get first place in every grand prix cup
-    - Races: Get first place in every race (DOES NOT WORK)
+    - Races: Get first place in every race
     - Time Trials: Gain medals in all time trials (DOES NOT WORK)
     - Puzzle Piece Hunt: Collect puzzle pieces
     """

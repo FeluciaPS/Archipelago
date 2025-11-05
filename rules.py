@@ -111,6 +111,8 @@ def set_all_location_rules(world: GarfKartWorld):
         set_rule(ice_cream_cup, lambda state: state.has("Cup Unlock - Ice Cream Cup", world.player))
 
 def set_completion_condition(world: GarfKartWorld):
+    randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
+    randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
 
     if world.options.goal == "grand_prix":
         # The game can be completed if all cups are unlocked
@@ -123,6 +125,26 @@ def set_completion_condition(world: GarfKartWorld):
                 "Cup Unlock - Burger Cup",
                 "Cup Unlock - Ice Cream Cup"
             ], world.player)
+
+    elif world.options.goal == "races":
+        race_names = [
+            f'Unlock Course - {race}' for race in RACE_NAMES
+        ]
+
+        if randomize_races: 
+            world.multiworld.completion_condition[world.player] = lambda state: state.has_all(race_names, world.player)
+            
+        elif randomize_cups:
+            if world.options.progressive_cups:
+                world.multiworld.completion_condition[world.player] = lambda state: state.has("Progressive Cup Unlock", world.player, 3)
+            else:
+                world.multiworld.completion_condition[world.player] = lambda state: state.has_all([
+                    "Cup Unlock - Lasagna Cup",
+                    "Cup Unlock - Pizza Cup",
+                    "Cup Unlock - Burger Cup",
+                    "Cup Unlock - Ice Cream Cup"
+                ], world.player)
+
     elif world.options.goal == "puzzle_piece_hunt":
         # Game can be completed if all puzzle pieces are received
         puzzle_piece_names = [
