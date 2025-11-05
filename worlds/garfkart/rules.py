@@ -6,7 +6,7 @@ from __future__ import annotations
 # I hope.
 
 
-from .data import CUP_NAMES, RACE_NAMES, RACES_BY_CUP
+from .data import CUP_NAMES, CUPS_BY_RACE, RACE_NAMES, RACES_BY_CUP
 from worlds.generic.Rules import set_rule
 
 from typing import TYPE_CHECKING
@@ -19,58 +19,80 @@ def set_all_rules(world: GarfKartWorld):
     set_all_location_rules(world)
     set_completion_condition(world)
 
-def set_all_entrance_rules(world: GarfKartWorld):
-    # TODO: It'd be a whole lot easier to split options for randomize_races
-    # and randomize_cups for logic purposes
-    if world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races":
+def get_required_cup_items(cup: str, randomize_races: bool, randomize_cups: bool, progressive_cups: bool):
+    items = []
+    if randomize_cups:
+        if progressive_cups:
+            index = CUP_NAMES.index(cup)
+            items += [
+                "Progressive Cup Unlock" for _ in range(index)
+            ]
+        else:
+            items += [f'Cup Unlock - {cup}']
 
-        # If races are randomized, each race is only accessible if you have the race item
-        for race in RACE_NAMES:
-            entrance = world.get_entrance(race)
-            set_rule(entrance, lambda state: state.has(f'Course Unlock - {race}', world.player))
+    if randomize_races:
+        items += [
+            f'Course Unlock - {race}' for race in RACES_BY_CUP[cup]
+        ]
 
-        for index, cup in enumerate(CUP_NAMES):
+    return items
 
-            entrance = world.get_entrance(cup)
+def get_required_race_items(race, randomize_races: bool, randomize_cups: bool, progressive_cups: bool):
+    items = []
+    if randomize_races:
+        items += [
+            f'Course Unlock - {race}'
+        ]
 
-            required_items = [
-                f'Course Unlock - {race}' for race in RACES_BY_CUP[cup]
+    elif randomize_cups:
+        # Only if randomize_races is False should we lock races until the cup is
+        # unlocked
+        if progressive_cups:
+            index = CUP_NAMES.index(CUPS_BY_RACE[race])
+            items += [
+                "Progressive Cup Unlock" for _ in range(index)
+            ]
+        else:
+            items += [
+                f'Cup Unlock - {CUPS_BY_RACE[race]}'
             ]
 
-            if world.options.randomize_races == "cups_and_races":
-                if world.options.progressive_cups and index > 0:
-                    set_rule(entrance, lambda state: state.has(required_items, world.player) and \
-                                                     state.has("Progressive Cup Unlock", world.player, index))
-                    continue
-                else:
-                    required_items += f'Cup Unlock - {cup}'
-                
-            set_rule(entrance, lambda state: state.has(required_items, world.player))
+    return items
 
+def set_all_entrance_rules(world: GarfKartWorld):
+    # Store these in a variable to reduce redundancy
+    randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
+    randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
 
-    elif world.options.randomize_races == "cups":
+    # Set cup unlock rules
+    for cup in CUP_NAMES:
+        cup_entrance = world.get_entrance(cup)
+        required_items = get_required_cup_items(
+            cup,
+            randomize_races,
+            randomize_cups,
+            world.options.progressive_cups
+        )
 
-        # If grand prix are randomized and races aren't, races become available
-        # whenever the associated grand prix cup is unlocked
-        if world.options.progressive_cups:
+        if len(required_items) == 0:
+            continue
 
-            # Progressive cup unlocks require n Progressive Cup Unlock items to unlock their races
-            for index, cup in enumerate(CUP_NAMES): 
-                if index > 0:
-                    for race in RACES_BY_CUP[cup]:
-                        entrance = world.get_entrance(race)
-                        set_rule(entrance, lambda state: state.has("Progressive Cup Unlock", world.player, index))
-        else:
+        set_rule(cup_entrance, lambda state: state.has_all(required_items, world.player))
 
-            # Regular cup unlocks simply require the item to unlock their races
-            for cup in CUP_NAMES:
-                for race in RACES_BY_CUP[cup]:
-                    entrance = world.get_entrance(race)
-                    set_rule(entrance, lambda state: state.has(f"Cup Unlock - {cup}", world.player))
-    else:
-        
-        # Otherwise, races are always unlocked
-        pass
+    # Set race unlock rules
+    for race in RACE_NAMES:
+        race_entrance = world.get_entrance(race)
+        required_items = get_required_race_items(
+            race,
+            randomize_races,
+            randomize_cups,
+            world.options.progressive_cups
+        )
+
+        if len(required_items) == 0:
+            continue
+
+        set_rule(race_entrance, lambda state: state.has_all(required_items, world.player))
 
 def set_all_location_rules(world: GarfKartWorld):
     lasagna_cup = world.get_location("Lasagna Cup: Victory")
