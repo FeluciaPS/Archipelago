@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 # Region structure starts with the origin (Main Menu) region
 # Then probably splits regions by course/cup
 #
@@ -11,13 +9,14 @@ from __future__ import annotations
 # as of now. Most logic will end up pretty simple and can be done at the 
 # location level instead.
 
-from BaseClasses import Region
+from __future__ import annotations
 
 from typing import TYPE_CHECKING
-
-from worlds.garfkart.data import RACE_NAMES
 if TYPE_CHECKING:
     from .world import GarfKartWorld
+
+from BaseClasses import Region
+from worlds.garfkart.data import CUP_NAMES, RACE_NAMES
 
 
 def create_and_connect_regions(world: GarfKartWorld):
@@ -25,16 +24,25 @@ def create_and_connect_regions(world: GarfKartWorld):
     connect_regions(world)
 
 def create_regions(world: GarfKartWorld):
-    # For the time being each cup is a region but eventually we'll probably
-    # have to split it by race
+
+    # Menu is its own region, it serves as the origin region. It only has
+    # "beat race as character/car" locations attached, which don't exist yet
+    # in v0.2
     menu = Region("Menu", world.player, world.multiworld)
     
     regions = [
         menu
     ]
 
+    # Each race gets its own region, containing puzzle pieces, race victories
+    # and time trials
     regions += [
         Region(race, world.player, world.multiworld) for race in RACE_NAMES
+    ]
+
+    # Each cup gets its own region containing cup victories and spoiler unlocks
+    regions += [
+        Region(cup, world.player, world.multiworld) for cup in CUP_NAMES
     ]
 
     world.multiworld.regions += regions
@@ -45,3 +53,7 @@ def connect_regions(world: GarfKartWorld):
     for race in RACE_NAMES:
         region = world.get_region(race)
         menu.connect(region, race)
+
+    for cup in CUP_NAMES:
+        region = world.get_region(cup)
+        menu.connect(region, cup)
