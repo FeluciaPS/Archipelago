@@ -26,8 +26,27 @@ def set_all_entrance_rules(world: GarfKartWorld):
 
         # If races are randomized, each race is only accessible if you have the race item
         for race in RACE_NAMES:
-            entrance = world.get_entrance(f'Menu to {race}')
+            entrance = world.get_entrance(race)
             set_rule(entrance, lambda state: state.has(f'Course Unlock - {race}', world.player))
+
+        for index, cup in enumerate(CUP_NAMES):
+
+            entrance = world.get_entrance(cup)
+
+            required_items = [
+                f'Course Unlock - {race}' for race in RACES_BY_CUP[cup]
+            ]
+
+            if world.options.randomize_races == "cups_and_races":
+                if world.options.progressive_cups and index > 0:
+                    set_rule(entrance, lambda state: state.has(required_items, world.player) and \
+                                                     state.has("Progressive Cup Unlock", world.player, index))
+                    continue
+                else:
+                    required_items += f'Cup Unlock - {cup}'
+                
+            set_rule(entrance, lambda state: state.has(required_items, world.player))
+
 
     elif world.options.randomize_races == "cups":
 
