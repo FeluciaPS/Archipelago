@@ -81,13 +81,11 @@ class RandomizeRaces(Choice):
     Sets whether to shuffle race unlocks into the item pool
 
     - Cups: Grand Prix cup unlocks are shuffled into the item pool, races unlock when you unlock their cup
-    - Races: Race unlocks are shuffled into the item pool, cups unlock when you've unlocked all races in them
+    - Races: Race unlocks are shuffled into the item pool, cups unlock when you've unlocked all races in the cup
     - Cups and Races: Race and cup unlocks are shuffled into the item pool, playing a cup requires all 4 races and the cup item
     """
-    visibility = Visibility.none # Only cups works, so we set it to invisible and default to cups
-
     display_name = "Randomize Races"
-    default = 1
+    default = 0
 
     option_off = 0
     option_cups = 1
