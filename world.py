@@ -2,6 +2,7 @@
 
 from collections.abc import Mapping
 from typing import Any
+from Options import OptionError
 from worlds.AutoWorld import World
 
 from . import items, locations, options, regions, rules, web_world
@@ -28,12 +29,18 @@ class GarfKartWorld(World):
 
     origin_region_name = "Menu"
 
+    # TODO: this shouldn't end up in v1.0
     def pre_fill(self):
         from BaseClasses import CollectionState
         from Fill import sweep_from_pool
         state = sweep_from_pool(CollectionState(self.multiworld), self.multiworld.itempool)
         unreachable_locations = [location for location in self.get_locations() if not location.can_reach(state)]
-        assert not unreachable_locations, f"All state can't reach all locations: {unreachable_locations}"
+
+        # I'm not good with exception types I'm sure "Exception" covers it
+        if len(unreachable_locations):
+            raise Exception(f"There are unreachable locations, please let Felucia know: {unreachable_locations}")
+        if not len(self.multiworld.items):
+            raise OptionError("There aren't any items in the item pool. Change your YAML and/or let Felucia know this is a bug.")
 
     def generate_early(self):
         if self.options.goal == "puzzle_piece_hunt":
