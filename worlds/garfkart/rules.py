@@ -95,20 +95,23 @@ def set_all_entrance_rules(world: GarfKartWorld):
         set_rule(race_entrance, lambda state: state.has_all_counts(required_items, world.player))
 
 def set_all_location_rules(world: GarfKartWorld):
-    lasagna_cup = world.get_location("Lasagna Cup: Victory")
-    pizza_cup = world.get_location("Pizza Cup: Victory")
-    burger_cup = world.get_location("Burger Cup: Victory")
-    ice_cream_cup = world.get_location("Ice Cream Cup: Victory")
+    randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
 
-    if world.options.progressive_cups:
-        set_rule(pizza_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 1))
-        set_rule(burger_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 2))
-        set_rule(ice_cream_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 3))
-    else:
-        set_rule(lasagna_cup, lambda state: state.has("Cup Unlock - Lasagna Cup", world.player))
-        set_rule(pizza_cup, lambda state: state.has("Cup Unlock - Pizza Cup", world.player))
-        set_rule(burger_cup, lambda state: state.has("Cup Unlock - Burger Cup", world.player))
-        set_rule(ice_cream_cup, lambda state: state.has("Cup Unlock - Ice Cream Cup", world.player))
+    if randomize_cups:
+        lasagna_cup = world.get_location("Lasagna Cup: Victory")
+        pizza_cup = world.get_location("Pizza Cup: Victory")
+        burger_cup = world.get_location("Burger Cup: Victory")
+        ice_cream_cup = world.get_location("Ice Cream Cup: Victory")
+
+        if world.options.progressive_cups:
+            set_rule(pizza_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 1))
+            set_rule(burger_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 2))
+            set_rule(ice_cream_cup, lambda state: state.has("Progressive Cup Unlock", world.player, 3))
+        else:
+            set_rule(lasagna_cup, lambda state: state.has("Cup Unlock - Lasagna Cup", world.player))
+            set_rule(pizza_cup, lambda state: state.has("Cup Unlock - Pizza Cup", world.player))
+            set_rule(burger_cup, lambda state: state.has("Cup Unlock - Burger Cup", world.player))
+            set_rule(ice_cream_cup, lambda state: state.has("Cup Unlock - Ice Cream Cup", world.player))
 
 def set_completion_condition(world: GarfKartWorld):
     randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
