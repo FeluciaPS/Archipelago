@@ -39,7 +39,7 @@ class GarfKartWorld(World):
         # I'm not good with exception types I'm sure "Exception" covers it
         if len(unreachable_locations):
             raise Exception(f"There are unreachable locations, please let Felucia know: {unreachable_locations}")
-        if not len(self.multiworld.items):
+        if not len(self.multiworld.itempool):
             raise OptionError("There aren't any items in the item pool. Change your YAML and/or let Felucia know this is a bug.")
 
     def generate_early(self):
