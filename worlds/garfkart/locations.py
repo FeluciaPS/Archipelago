@@ -8,7 +8,6 @@
  
 from __future__ import annotations
 
-import logging
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .world import GarfKartWorld
@@ -135,7 +134,6 @@ def create_regular_locations(world: GarfKartWorld) -> None:
             # ~Felucia
             location_data = get_locations_by_key_substring(PUZZLE_PIECE_LOCATION_TABLE, race)
             region = world.get_region(race)
-            logging.info([*location_data])
             region.add_locations(location_data, GarfKartLocation)
             
 
