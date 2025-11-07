@@ -19,43 +19,36 @@ def set_all_rules(world: GarfKartWorld):
     set_all_location_rules(world)
     set_completion_condition(world)
 
-def get_required_cup_items(cup: str, randomize_races: bool, randomize_cups: bool, progressive_cups: bool):
-    items = []
+def get_required_cup_items(cup: str, randomize_races: bool, randomize_cups: bool, progressive_cups: bool) -> dict[str, int]:
+    items = {}
     if randomize_cups:
         if progressive_cups:
             index = CUP_NAMES.index(cup)
-            items += [
-                "Progressive Cup Unlock" for _ in range(index)
-            ]
+            if index > 0:
+                items["Progressive Cup Unlock"] = index
         else:
-            items += [f'Cup Unlock - {cup}']
+            items[f'Cup Unlock - {cup}'] = 1
 
     if randomize_races:
-        items += [
-            f'Course Unlock - {race}' for race in RACES_BY_CUP[cup]
-        ]
+        for race in RACES_BY_CUP[cup]:
+            items[f'Course Unlock - {race}'] = 1
 
     return items
 
 def get_required_race_items(race, randomize_races: bool, randomize_cups: bool, progressive_cups: bool):
     items = []
     if randomize_races:
-        items += [
-            f'Course Unlock - {race}'
-        ]
+        items[f'Course Unlock - {race}'] = 1
 
     elif randomize_cups:
         # Only if randomize_races is False should we lock races until the cup is
         # unlocked
         if progressive_cups:
             index = CUP_NAMES.index(CUPS_BY_RACE[race])
-            items += [
-                "Progressive Cup Unlock" for _ in range(index)
-            ]
+            if index > 0:
+                items["Progressive Cup Unlock"] = index
         else:
-            items += [
-                f'Cup Unlock - {CUPS_BY_RACE[race]}'
-            ]
+            items[f'Cup Unlock - {CUPS_BY_RACE[race]}'] = 1
 
     return items
 
