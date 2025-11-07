@@ -65,5 +65,5 @@ class GarfKartWorld(World):
     # Copied from APQuest for the time being
     def fill_slot_data(self) -> Mapping[str, Any]:
         return self.options.as_dict(
-            "goal", "progressive_cups"
+            "goal", "progressive_cups", "puzzle_piece_count"
         )

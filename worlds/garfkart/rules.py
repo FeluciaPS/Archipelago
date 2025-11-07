@@ -121,9 +121,9 @@ def set_completion_condition(world: GarfKartWorld):
         pass
 
     if world.options.goal == "puzzle_piece_hunt":
-        for race in RACE_NAMES:
-            for n in range(3):
-                required_items[f'{race} - Puzzle Piece {n + 1}'] = 1
+        puzzle_pieces_in_pool = filter(lambda item: "Puzzle Piece" in item.name, world.multiworld.itempool)
+        for puzzle_piece in puzzle_pieces_in_pool:
+            required_items[puzzle_piece.name] = 1
 
     world.multiworld.completion_condition[world.player] = lambda state: state.has_all_counts(required_items, world.player)
 
