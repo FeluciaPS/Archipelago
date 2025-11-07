@@ -215,7 +215,10 @@ def create_itempool(world: GarfKartWorld) -> None:
     # Puzzle Piece Hunt, so we don't need to check both.
     # TODO: Above comment is lying. We need to check both if we want to put them in the filler pool
     if world.options.randomize_puzzle_pieces:
-        itempool += [world.create_item(piece) for piece in list(PUZZLE_PIECE_TABLE)]
+        count = world.options.puzzle_piece_count
+        shuffled_pieces = list(PUZZLE_PIECE_TABLE)
+        world.random.shuffle(shuffled_pieces)
+        itempool += [world.create_item(shuffled_pieces[i]) for i in range(count)]
 
     # Compare item pool size to location size, and fill what's left with
     # filler items.

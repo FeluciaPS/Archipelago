@@ -45,11 +45,11 @@ class CCRequirement(Choice):
 
 class PuzzlePieceCount(Range):
     """
-    Sets the number of the 48 Puzzle Pieces required for the Puzzle Piece Hunt goal.
+    Sets the amount of puzzle pieces added to the item pool. If the goal is Puzzle Piece Hunt, 
+    this is the amount of puzzle pieces required to beat the game. 
 
-    If the goal is not Puzzle Piece Hunt, this option does nothing.
+    If puzzle pieces aren't randomized, this option does nothing.
     """
-    visibility = Visibility.none # Not implemented
 
     display_name = "Puzzle Piece Count"
 
