@@ -12,8 +12,12 @@ class Goal(Choice):
 
     - Grand Prix: Get first place in every grand prix cup
     - Races: Get first place in every race
-    - Time Trials: Gain medals in all time trials (DOES NOT WORK)
+    - Time Trials: Gain medals in all time trials (READ BELOW)
     - Puzzle Piece Hunt: Collect puzzle pieces
+
+    Note on time trials: Although the game generates, please check for mod support
+    before enabling this option, and beware that not all time trials may be
+    beatable with the current logic and you could get stuck.
     """
     display_name = "Goal"
 
