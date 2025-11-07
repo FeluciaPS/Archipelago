@@ -8,6 +8,7 @@
  
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .world import GarfKartWorld
@@ -116,14 +117,14 @@ def create_regular_locations(world: GarfKartWorld) -> None:
     if randomize_cups:
         for cup in CUP_NAMES:
             location_data = get_location_names_with_ids([f"{cup}: Victory"])
-            region = world.get_region("Menu")
+            region = world.get_region(cup)
             region.add_locations(location_data, GarfKartLocation)
 
     # Add race victory locations
     if randomize_races:
         for race in RACE_NAMES:
             location_data = get_location_names_with_ids([f"{race}: Victory"])
-            region = world.get_region("Menu")
+            region = world.get_region(race)
             region.add_locations(location_data, GarfKartLocation)
 
     # Add puzzle pieces
@@ -134,6 +135,7 @@ def create_regular_locations(world: GarfKartWorld) -> None:
             # ~Felucia
             location_data = get_locations_by_key_substring(PUZZLE_PIECE_LOCATION_TABLE, race)
             region = world.get_region(race)
+            logging.info([*location_data])
             region.add_locations(location_data, GarfKartLocation)
             
 
