@@ -35,8 +35,8 @@ def get_required_cup_items(cup: str, randomize_races: bool, randomize_cups: bool
 
     return items
 
-def get_required_race_items(race, randomize_races: bool, randomize_cups: bool, progressive_cups: bool):
-    items = []
+def get_required_race_items(race, randomize_races: bool, randomize_cups: bool, progressive_cups: bool) -> dict[str, int]:
+    items = {}
     if randomize_races:
         items[f'Course Unlock - {race}'] = 1
 
