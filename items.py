@@ -187,6 +187,8 @@ def create_itempool(world: GarfKartWorld) -> None:
     if randomize_cups:
         if world.options.progressive_cups:
 
+            # TODO: Maybe add 4 progressive cup unlocks when races are randomized
+            # Jeff's gonna hate me for this this
             itempool += [
                 world.create_item("Progressive Cup Unlock"),
                 world.create_item("Progressive Cup Unlock"),
@@ -194,15 +196,17 @@ def create_itempool(world: GarfKartWorld) -> None:
             ]
         else:
 
-            # TODO: For now random cups assume you want a randomized starting cup,
-            # but if races are randomized you can start without a cup unlocked just fine
+            # Don't start with a random cup if randomize_races is also on, only
+            # give a random starting cup if there's otherwise no progression
+            # possible at all
             shuffled_cups = CUP_NAMES
-            world.random.shuffle(shuffled_cups)
-            starting_cup_name = shuffled_cups.pop()
-            starting_cup_item = world.create_item(f'Cup Unlock - {starting_cup_name}')
-            world.push_precollected(starting_cup_item)
+            if not randomize_races:
+                world.random.shuffle(shuffled_cups)
+                starting_cup_name = shuffled_cups.pop()
+                starting_cup_item = world.create_item(f'Cup Unlock - {starting_cup_name}')
+                world.push_precollected(starting_cup_item)
 
-            # Add the other 3 cups to the itempool
+            # Add the non-precollected cups to the itempool
             itempool += [
                 world.create_item(f'Cup Unlock - {cup}') for cup in shuffled_cups
             ]
