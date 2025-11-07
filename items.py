@@ -194,8 +194,8 @@ def create_itempool(world: GarfKartWorld) -> None:
             ]
         else:
 
-            # For now random cups assume you want a randomized starting cup,
-            # but I suppose you could just want to start with Lasagna cup?
+            # TODO: For now random cups assume you want a randomized starting cup,
+            # but if races are randomized you can start without a cup unlocked just fine
             shuffled_cups = CUP_NAMES
             world.random.shuffle(shuffled_cups)
             starting_cup_name = shuffled_cups.pop()
