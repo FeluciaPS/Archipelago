@@ -112,28 +112,60 @@ def create_regular_locations(world: GarfKartWorld) -> None:
     randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
     randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
 
-    # Add cup victory locations
-    if randomize_cups:
-        for cup in CUP_NAMES:
+    for cup in CUP_NAMES:
+        region = world.get_region(cup)
+
+        # Add cup victory locations
+        if randomize_cups:
             location_data = get_location_names_with_ids([f"{cup}: Victory"])
-            region = world.get_region(cup)
             region.add_locations(location_data, GarfKartLocation)
 
-    # Add race victory locations
-    if randomize_races:
-        for race in RACE_NAMES:
+        # Add spoiler unlock locations
+        if world.options.randomize_spoilers in ["on", "progressive"]:
+            location_data = get_location_names_with_ids([
+                f'{cup}: Unlock Bronze Spoiler (1)',
+                f'{cup}: Unlock Bronze Spoiler (2)',
+                f'{cup}: Unlock Silver Spoiler (1)',
+                f'{cup}: Unlock Silver Spoiler (2)',
+                f'{cup}: Unlock Gold Spoiler (1)',
+                f'{cup}: Unlock Gold Spoiler (2)',
+            ])
+            region.add_locations(location_data, GarfKartLocation)
+        
+        if world.options.randomize_spoilers == "combine_tiers":
+            location_data = get_location_names_with_ids([
+                f'{cup}: Unlock Spoiler (1)',
+                f'{cup}: Unlock Spoiler (2)',
+            ])
+            region.add_locations(location_data, GarfKartLocation)
+
+    for race in RACE_NAMES:
+        region = world.get_region(race)
+        
+        # Add race victory locations
+        if randomize_races:
             location_data = get_location_names_with_ids([f"{race}: Victory"])
-            region = world.get_region(race)
             region.add_locations(location_data, GarfKartLocation)
 
-    # Add puzzle pieces
-    if world.options.randomize_puzzle_pieces:
-        for race in RACE_NAMES:
+        # Add puzzle pieces
+        if world.options.randomize_puzzle_pieces:
             # This helper function is the most graceful way I can think to do this right now.
             # If you're reading this and think you can do better let me know 
             # ~Felucia
             location_data = get_locations_by_key_substring(PUZZLE_PIECE_LOCATION_TABLE, race)
-            region = world.get_region(race)
+            region.add_locations(location_data, GarfKartLocation)
+
+        # Add hat locations
+        if world.options.randomize_hats in ["on", "progressive"]:
+            location_data = get_location_names_with_ids([
+                f"{race}: Bronze Hat Unlock",
+                f"{race}: Silver Hat Unlock",
+                f"{race}: Gold Hat Unlock",
+            ])
+            region.add_locations(location_data, GarfKartLocation)
+
+        if world.options.randomize_hats == "combine_tiers":
+            location_data = get_location_names_with_ids([f"{race}: Hat Unlock"])
             region.add_locations(location_data, GarfKartLocation)
             
 

@@ -111,19 +111,17 @@ class RandomizeHats(Choice):
 
     - Off: Hats are unlocked in their vanilla locations
     - Progressive: Always unlock bronze hats first, then silver, then gold
-    - Gold Only: Only gold tier hats are added to the item pool
+    - Combine Tiers: Unlocking a hat instantly unlocks bronze, silver, and gold
     - On: All tiers of all hats are added to the item pool
 
     !!!IMPORTANT!! only gold-only will be implemented in early versions
     """
-    visibility = Visibility.none # Not implemented
-
     display_name = "Randomize Hats"
     default = 0
 
     option_off = 0
     option_progressive = 1
-    option_gold_only = 2
+    option_combine_tiers = 2
     option_on = 3
 
 class RandomizeSpoilers(Choice):
@@ -137,8 +135,6 @@ class RandomizeSpoilers(Choice):
 
     !!!IMPORTANT!! only gold-only will be implemented in early versions
     """
-    visibility = Visibility.none # Not implemented
-
     display_name = "Randomize Spoilers"
     default = 0
 
