@@ -95,10 +95,8 @@ for index, spoiler in enumerate(SPOILER_NAMES):
 # Trap items reserve IDs 1500+
 FILLER_ITEM_TABLE = {
     "Filler Item": 1000, # Does nothing, delete later in dev
-    "Item - Spring": 1001, # Gives spring next time player has an empty item slot
-    "Item - Pie": 1002, # Gives pie next time player has an empty item slot
-    "Random Item Box": 1003, # Gives random item box next time player has an empty item slot
-    "Start Boost Helper (Single Use)": 1004, # Guarantees perfect boost at start of next race
+    #"Random Item Box": 1001, # Gives random item box next time player has an empty item slot
+    #"Start Boost Helper (Single Use)": 1002, # Guarantees perfect boost at start of next race
 }
 TRAP_ITEM_TABLE = {
     "Mirror Trap": 1500, # Mirrors all tracks until you beat one race
@@ -136,9 +134,6 @@ class GarfKartItem(Item):
 # Functions #
 #############
 def get_random_filler_item(world: GarfKartWorld) -> str:
-    # Hardcode filler items to be blank items that do nothing
-    return "Filler Item"
-
     # TODO: Include traps
     # TODO: Optionally include puzzle pieces, since they're filler when not the goal
     return world.random.choice(list(FILLER_ITEM_TABLE))
