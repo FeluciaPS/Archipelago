@@ -78,16 +78,18 @@ for index, car in enumerate(CAR_NAMES):
 # Generate 48 hat unlock items
 for index, hat in enumerate(HAT_NAMES):
     HAT_ITEM_TABLE[f'Progressive {hat}'] = index + 401
-    HAT_ITEM_TABLE[f'{hat} - Bronze'] = index + 426
-    HAT_ITEM_TABLE[f'{hat} - Silver'] = index + 451
-    HAT_ITEM_TABLE[f'{hat} - Gold'] = index + 476
+    HAT_ITEM_TABLE[f'Unlock {hat}'] = index + 421
+    HAT_ITEM_TABLE[f'{hat} - Bronze'] = index + 441
+    HAT_ITEM_TABLE[f'{hat} - Silver'] = index + 461
+    HAT_ITEM_TABLE[f'{hat} - Gold'] = index + 481
 
 # Generate 24 spoiler unlock items
 for index, spoiler in enumerate(SPOILER_NAMES):
     SPOILER_ITEM_TABLE[f'Progressive {spoiler}'] = index + 501
-    SPOILER_ITEM_TABLE[f'{spoiler} - Bronze'] = index + 526
-    SPOILER_ITEM_TABLE[f'{spoiler} - Silver'] = index + 551
-    SPOILER_ITEM_TABLE[f'{spoiler} - Gold'] = index + 576
+    SPOILER_ITEM_TABLE[f'Unlock {spoiler}'] = index + 521
+    SPOILER_ITEM_TABLE[f'{spoiler} - Bronze'] = index + 541
+    SPOILER_ITEM_TABLE[f'{spoiler} - Silver'] = index + 561
+    SPOILER_ITEM_TABLE[f'{spoiler} - Gold'] = index + 581
 
 # Filler items reserve IDs 1000+
 # Trap items reserve IDs 1500+
@@ -186,14 +188,12 @@ def create_itempool(world: GarfKartWorld) -> None:
     # Add cup victory locations
     if randomize_cups:
         if world.options.progressive_cups:
-
-            # TODO: Maybe add 4 progressive cup unlocks when races are randomized
-            # Jeff's gonna hate me for this this
             itempool += [
                 world.create_item("Progressive Cup Unlock"),
                 world.create_item("Progressive Cup Unlock"),
                 world.create_item("Progressive Cup Unlock"),
             ]
+
         else:
 
             # Don't start with a random cup if randomize_races is also on, only
@@ -219,6 +219,40 @@ def create_itempool(world: GarfKartWorld) -> None:
         shuffled_pieces = list(PUZZLE_PIECE_TABLE)
         world.random.shuffle(shuffled_pieces)
         itempool += [world.create_item(shuffled_pieces[i]) for i in range(count)]
+
+    # Hat randomizer items
+    if world.options.randomize_hats == "progressive":
+        itempool += [
+            world.create_item(f'Progressive {hat}') for hat in HAT_NAMES for _ in range(3)
+        ]
+
+    if world.options.randomize_hats == "combine_tiers":
+        itempool += [
+            world.create_item(f'Unlock {hat}') for hat in HAT_NAMES
+        ]
+
+    if world.options.randomize_hats == "on":
+        hat_tiers = ["Bronze", "Silver", "Gold"]
+        itempool += [
+            world.create_item(f'{hat} - {tier}') for hat in HAT_NAMES for tier in hat_tiers
+        ]
+
+    # Spoiler randomizer items
+    if world.options.randomize_spoilers == "progressive":
+        itempool += [
+            world.create_item(f'Progressive {spoiler}') for spoiler in SPOILER_NAMES for _ in range(3)
+        ]
+
+    if world.options.randomize_spoilers == "combine_tiers":
+        itempool += [
+            world.create_item(f'Unlock {spoiler}') for spoiler in SPOILER_NAMES
+        ]
+
+    if world.options.randomize_spoilers == "on":
+        spoiler_tiers = ["Bronze", "Silver", "Gold"]
+        itempool += [
+            world.create_item(f'{spoiler} - {tier}') for spoiler in SPOILER_NAMES for tier in spoiler_tiers
+        ]
 
     # Compare item pool size to location size, and fill what's left with
     # filler items.
