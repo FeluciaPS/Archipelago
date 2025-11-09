@@ -29,12 +29,11 @@ class Goal(Choice):
 
 class CCRequirement(Choice):
     """
-    Sets the CC requirement for the Grand Prix and Races goals.
+    Sets the CC requirement for the Grand Prix and Races goals. Other ccs may still 
+    give checks depending on other options.
 
-    If the goal is not one of those, this option does nothing.
+    If the goal is not Grand Prix or Races, this option does nothing.
     """
-    visibility = Visibility.none # Not implemented
-
     display_name = "CC Requirement"
 
     default = 0
