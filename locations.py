@@ -74,6 +74,19 @@ for index, race in enumerate(RACE_NAMES):
 ADDITIONAL_CHARACTER_LOCATIONS = {}
 ADDITIONAL_CAR_LOCATIONS = {}
 
+# 9 locations for item unlocks
+ADDITIONAL_ITEM_LOCATIONS = {
+    "Find Item: Pie": 1101,
+    "Find Item: Homing Pie": 1102,
+    "Find Item: Diamond": 1103,
+    "Find Item: Magic Wand": 1104,
+    "Find Item: Perfume": 1105,
+    "Find Item: Lasagna": 1106,
+    "Find Item: UFO": 1107,
+    "Find Item: Pillow": 1108,
+    "Find Item: Spring": 1109,
+}
+
 # 8 locations for character unlocks
 for index, character in enumerate(CHARACTER_NAMES):
     ADDITIONAL_CHARACTER_LOCATIONS[f'Win Race as {character}'] = index + 1001
@@ -81,6 +94,7 @@ for index, character in enumerate(CHARACTER_NAMES):
 # 8 locations for car unlocks
 for index, car in enumerate(CAR_NAMES):
     ADDITIONAL_CAR_LOCATIONS[f'Win Race with {car}'] = index + 1051
+
 
 LOCATION_NAME_TO_ID = {
     **COURSE_WIN_LOCATION_TABLE,
@@ -168,6 +182,9 @@ def create_regular_locations(world: GarfKartWorld) -> None:
             location_data = get_location_names_with_ids([f"{race}: Hat Unlock"])
             region.add_locations(location_data, GarfKartLocation)
             
+    if world.options.randomize_items:
+        region = world.get_region("Menu")
+        region.add_locations(ADDITIONAL_ITEM_LOCATIONS, GarfKartLocation)
 
 def create_events(world: GarfKartWorld) -> None:
     pass
