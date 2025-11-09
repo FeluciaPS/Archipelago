@@ -3,7 +3,7 @@ from __future__ import annotations
 # Logic goes here
 
 
-from .data import CUP_NAMES, CUPS_BY_RACE, RACE_NAMES, RACES_BY_CUP
+from .data import CUP_NAMES, CUPS_BY_RACE, PUZZLE_PIECE_REQUIREMENTS, RACE_NAMES, RACES_BY_CUP, PuzzlePieceRequirements
 from worlds.generic.Rules import set_rule
 
 from typing import TYPE_CHECKING
@@ -85,10 +85,20 @@ def set_all_entrance_rules(world: GarfKartWorld):
         set_rule(race_entrance, lambda state, items=required_items: state.has_all_counts(items, world.player))
 
 def set_all_location_rules(world: GarfKartWorld):
-    if world.options.randomize_puzzle_pieces:
-        # TODO: Item randomizer has extra logic for puzzle piece hunt
-        # but there's no item randomizer setting yet
-        pass
+
+    # Certain puzzle pieces require a Spring or Lasagna item to be accessed
+    if world.options.randomize_puzzle_pieces and world.options.randomize_items:
+        for race in PUZZLE_PIECE_REQUIREMENTS:
+            for piece in PUZZLE_PIECE_REQUIREMENTS[race]:
+                location = world.get_location(f'{race}: Puzzle Piece {piece}')
+                required_items = [
+                    "Item Unlock - Spring"
+                ]
+
+                if PUZZLE_PIECE_REQUIREMENTS[race][piece] == PuzzlePieceRequirements.Either:
+                    required_items.append("Item Unlock - Lasagna")
+
+                set_rule(location, lambda state, items=required_items: state.has_any(items, world.player))
 
 def set_completion_condition(world: GarfKartWorld):
     randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"

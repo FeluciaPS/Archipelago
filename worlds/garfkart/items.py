@@ -254,6 +254,12 @@ def create_itempool(world: GarfKartWorld) -> None:
             world.create_item(f'{spoiler} - {tier}') for spoiler in SPOILER_NAMES for tier in spoiler_tiers
         ]
 
+    # Item randomizer!
+    if world.options.randomize_items:
+        itempool += [
+            world.create_item(item) for item in ITEM_BOX_RANDOMIZER_TABLE
+        ]
+
     # Compare item pool size to location size, and fill what's left with
     # filler items.
     item_count = len(itempool)

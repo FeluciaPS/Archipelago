@@ -105,6 +105,14 @@ class ProgressiveCups(Toggle):
     """
     display_name = "Progressive Cups"
 
+class RandomizePuzzlePieces(Toggle):
+    """
+    Adds puzzle pieces to the item pool.
+    
+    Always on when the goal is Puzzle Piece Hunt
+    """
+    display_name = "Randomize Puzzle Pieces"
+
 class RandomizeHats(Choice):
     """
     Adds hats to the item pool
@@ -113,8 +121,6 @@ class RandomizeHats(Choice):
     - Progressive: Always unlock bronze hats first, then silver, then gold
     - Combine Tiers: Unlocking a hat instantly unlocks bronze, silver, and gold
     - On: All tiers of all hats are added to the item pool
-
-    !!!IMPORTANT!! only gold-only will be implemented in early versions
     """
     display_name = "Randomize Hats"
     default = 0
@@ -132,8 +138,6 @@ class RandomizeSpoilers(Choice):
     - Progressive: Always unlock bronze spoilers first, then silver, then gold
     - Combine Tiers: Unlocking a spoiler instantly unlocks bronze, silver, and gold
     - On: All tiers of all spoilers are added to the item pool
-
-    !!!IMPORTANT!! only gold-only will be implemented in early versions
     """
     display_name = "Randomize Spoilers"
     default = 0
@@ -143,14 +147,13 @@ class RandomizeSpoilers(Choice):
     option_combine_tiers = 2
     option_on = 3
 
-class RandomizePuzzlePieces(Toggle):
+class RandomizeItems(Toggle):
     """
-    Adds puzzle pieces to the item pool.
-    
-    Always on when the goal is Puzzle Piece Hunt
+    Randomizes the items that can be received from item boxes and adds locations for
+    acquiring each item from an item box for the first time. 
+    Always starts with one item unlocked.
     """
-    display_name = "Randomize Puzzle Pieces"
-
+    display_name = "Randomize Items"
 
 @dataclass
 class GarfKartOptions(PerGameCommonOptions):
