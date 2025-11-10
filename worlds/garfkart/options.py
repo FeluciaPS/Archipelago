@@ -166,9 +166,10 @@ class GarfKartOptions(PerGameCommonOptions):
     # Randomizer Options
     randomize_races: RandomizeRaces
     progressive_cups: ProgressiveCups
+    randomize_puzzle_pieces: RandomizePuzzlePieces
     randomize_hats: RandomizeHats
     randomize_spoilers: RandomizeSpoilers
-    randomize_puzzle_pieces: RandomizePuzzlePieces
+    randomize_items: RandomizeItems
 
 
 option_groups = [
@@ -178,6 +179,6 @@ option_groups = [
     ),
     OptionGroup(
         "Randomizer Options",
-        [RandomizeRaces, ProgressiveCups, RandomizeSpoilers, RandomizeHats, RandomizePuzzlePieces],
+        [RandomizeRaces, ProgressiveCups, RandomizePuzzlePieces, RandomizeSpoilers, RandomizeHats, RandomizeItems],
     ),
 ]
