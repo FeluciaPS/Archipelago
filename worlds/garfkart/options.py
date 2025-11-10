@@ -81,7 +81,7 @@ class TimeTrialGoalGrade(Choice):
 ##
 class RandomizeRaces(Choice):
     """
-    Sets whether to shuffle race unlocks into the item pool
+    Sets how to shuffle race unlocks into the item pool
 
     - Cups: Grand Prix cup unlocks are shuffled into the item pool, races unlock when you unlock their cup
     - Races: Race unlocks are shuffled into the item pool, cups unlock when you've unlocked all races in the cup
@@ -90,10 +90,9 @@ class RandomizeRaces(Choice):
     display_name = "Randomize Races"
     default = 0
 
-    option_off = 0
-    option_cups = 1
-    option_races = 2
-    option_cups_and_races = 3
+    option_cups = 0
+    option_races = 1
+    option_cups_and_races = 2
 
 class ProgressiveCups(Toggle):
     """
