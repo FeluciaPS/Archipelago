@@ -118,6 +118,18 @@ SPOILER_NAMES = [
     "Stained Spoiler",
 ]
 
+ITEM_NAMES = [
+    "Pie",
+    "Homing Pie",
+    "Diamond",
+    "Magic Wand",
+    "Perfume",
+    "Lasagna",
+    "UFO",
+    "Pillow",
+    "Spring",
+]
+
 # Some puzzle pieces logically require items which is relevant for the planned
 # item randomizer
 class PuzzlePieceRequirements:
