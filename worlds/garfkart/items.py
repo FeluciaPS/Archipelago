@@ -173,8 +173,8 @@ def create_itempool(world: GarfKartWorld) -> None:
         shuffled_races = RACE_NAMES
         world.random.shuffle(shuffled_races)
         starting_race_name = shuffled_races.pop()
-        starting_race_item = world.create_item(f'Course Unlock - {starting_race_name}')
-        world.push_precollected(starting_race_item)
+        starting_race_object = world.create_item(f'Course Unlock - {starting_race_name}')
+        world.push_precollected(starting_race_object)
 
         itempool += [
             world.create_item(f'Course Unlock - {race}') for race in shuffled_races
@@ -198,8 +198,8 @@ def create_itempool(world: GarfKartWorld) -> None:
             if not randomize_races:
                 world.random.shuffle(shuffled_cups)
                 starting_cup_name = shuffled_cups.pop()
-                starting_cup_item = world.create_item(f'Cup Unlock - {starting_cup_name}')
-                world.push_precollected(starting_cup_item)
+                starting_cup_object = world.create_item(f'Cup Unlock - {starting_cup_name}')
+                world.push_precollected(starting_cup_object)
 
             # Add the non-precollected cups to the itempool
             itempool += [
@@ -251,8 +251,14 @@ def create_itempool(world: GarfKartWorld) -> None:
 
     # Item randomizer!
     if world.options.randomize_items:
+
+        shuffled_items = list(ITEM_BOX_RANDOMIZER_TABLE)
+        world.random.shuffle(shuffled_items)
+        starting_item_name = shuffled_items.pop()
+        starting_item_object = world.create_item(starting_item_name)
+        world.push_precollected(starting_item_object)
         itempool += [
-            world.create_item(item) for item in ITEM_BOX_RANDOMIZER_TABLE
+            world.create_item(item) for item in shuffled_items
         ]
 
     # Compare item pool size to location size, and fill what's left with
