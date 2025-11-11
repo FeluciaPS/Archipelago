@@ -152,6 +152,11 @@ def create_item_object(world: GarfKartWorld, name: str):
         else:
             classification = ItemClassification.filler
 
+    # Spring and Lasagna item unlocks are progression sometimes
+    if world.options.randomize_puzzle_pieces and world.options.randomize_items:
+        if name in ["Item Unlock - Spring", "Item Unlock - Lasagna"]:
+            classification = ItemClassification.progression
+
     # Filler is filler (no way!)
     if name in FILLER_ITEM_TABLE:
         classification = ItemClassification.filler
