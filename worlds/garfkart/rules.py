@@ -104,7 +104,7 @@ def set_all_location_rules(world: GarfKartWorld):
     if world.options.randomize_items:
         for item in ITEM_NAMES:
             location = world.get_location(f'Find Item: {item}')
-            set_rule(location, lambda state: state.has(f"Unlock Item - {item}", world.player))
+            set_rule(location, lambda state: state.has(f"Item Unlock - {item}", world.player))
 
 def set_completion_condition(world: GarfKartWorld):
     randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
