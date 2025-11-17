@@ -133,6 +133,18 @@ class GarfKartItem(Item):
 ############# 
 # Functions #
 #############
+def get_n_puzzle_pieces(n) -> list[str]:
+    puzzle_pieces = []
+
+    if n == 0:
+        return []
+
+    for race in RACE_NAMES:
+        for i in range(3):
+            puzzle_pieces.append(f'{race} - Puzzle Piece {i+1}')
+            if len(puzzle_pieces) == n:
+                return puzzle_pieces
+
 def get_random_filler_item(world: GarfKartWorld) -> str:
     # TODO: Include traps
     # TODO: Optionally include puzzle pieces, since they're filler when not the goal
@@ -148,7 +160,11 @@ def create_item_object(world: GarfKartWorld, name: str):
     # Deprioritize puzzle pieces
     if name in PUZZLE_PIECE_TABLE:
         if world.options.randomize_puzzle_pieces:
-            classification = ItemClassification.progression_deprioritized_skip_balancing
+            puzzle_pieces_in_logic = get_n_puzzle_pieces(world.options.puzzle_piece_count)
+            if name in puzzle_pieces_in_logic:
+                classification = ItemClassification.progression_deprioritized_skip_balancing
+            else:
+                classification = ItemClassification.filler
         else:
             classification = ItemClassification.filler
 
@@ -215,10 +231,10 @@ def create_itempool(world: GarfKartWorld) -> None:
     # Puzzle Piece Hunt, so we don't need to check both.
     # TODO: Above comment is lying. We need to check both if we want to put them in the filler pool
     if world.options.randomize_puzzle_pieces:
-        count = world.options.puzzle_piece_count
-        shuffled_pieces = list(PUZZLE_PIECE_TABLE)
-        world.random.shuffle(shuffled_pieces)
-        itempool += [world.create_item(shuffled_pieces[i]) for i in range(count)]
+        puzzle_pieces_in_logic = get_n_puzzle_pieces(world.options.puzzle_piece_count)
+        itempool += [
+            world.create_item(piece) for piece in puzzle_pieces_in_logic
+        ]
 
     # Hat randomizer items
     if world.options.randomize_hats == "progressive":

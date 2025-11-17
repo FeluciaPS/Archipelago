@@ -1,8 +1,9 @@
 from __future__ import annotations
+
 # Logic goes here
 # Logic goes here
 
-
+from .items import get_n_puzzle_pieces
 from .data import CUP_NAMES, CUPS_BY_RACE, ITEM_NAMES, PUZZLE_PIECE_REQUIREMENTS, RACE_NAMES, RACES_BY_CUP, PuzzlePieceRequirements
 from worlds.generic.Rules import set_rule
 
@@ -137,9 +138,9 @@ def set_completion_condition(world: GarfKartWorld):
         pass
 
     if world.options.goal == "puzzle_piece_hunt":
-        puzzle_pieces_in_pool = filter(lambda item: "Puzzle Piece" in item.name, world.multiworld.itempool)
+        puzzle_pieces_in_pool = get_n_puzzle_pieces(world.options.puzzle_piece_count)
         for puzzle_piece in puzzle_pieces_in_pool:
-            required_items[puzzle_piece.name] = 1
+            required_items[puzzle_piece] = 1
 
     world.multiworld.completion_condition[world.player] = lambda state: state.has_all_counts(required_items, world.player)
 
