@@ -132,7 +132,6 @@ class RandomizeHats(Choice):
     - Off: Hats are unlocked in their vanilla locations
     - Progressive: Always unlock bronze hats first, then silver, then gold
     - Combine Tiers: Unlocking a hat instantly unlocks bronze, silver, and gold
-    - On: All tiers of all hats are added to the item pool
     """
     display_name = "Randomize Hats"
     default = 0
@@ -140,7 +139,6 @@ class RandomizeHats(Choice):
     option_off = 0
     option_progressive = 1
     option_combine_tiers = 2
-    option_on = 3
 
 class RandomizeSpoilers(Choice):
     """
@@ -149,7 +147,6 @@ class RandomizeSpoilers(Choice):
     - Off: Spoilers are unlocked in their vanilla locations
     - Progressive: Always unlock bronze spoilers first, then silver, then gold
     - Combine Tiers: Unlocking a spoiler instantly unlocks bronze, silver, and gold
-    - On: All tiers of all spoilers are added to the item pool
     """
     display_name = "Randomize Spoilers"
     default = 0
@@ -157,7 +154,6 @@ class RandomizeSpoilers(Choice):
     option_off = 0
     option_progressive = 1
     option_combine_tiers = 2
-    option_on = 3
 
 class RandomizeItems(Toggle):
     """
@@ -208,6 +204,7 @@ class GarfKartOptions(PerGameCommonOptions):
 
     # Other Options
     randomize_items: RandomizeItems
+    trap_percentage: TrapPercentage
     death_link: DeathLink
 
 
