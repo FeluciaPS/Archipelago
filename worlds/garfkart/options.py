@@ -65,16 +65,13 @@ class TimeTrialGoalGrade(Choice):
 
     If the goal is not Time Trials, this option does nothing.
     """
-    visibility = Visibility.none # Not implemented
-
     display_name = "Time Trials Goal Grade"
 
-    default = 0
-    option_any = 0
-    option_bronze = 1
-    option_silver = 2
-    option_gold = 3
-    option_platinum = 4
+    default = 2
+    option_bronze = 0
+    option_silver = 1
+    option_gold = 2
+    option_platinum = 3
 
 ##
 # Randomizer Options
