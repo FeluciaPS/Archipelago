@@ -109,6 +109,22 @@ class RandomizePuzzlePieces(Toggle):
     """
     display_name = "Randomize Puzzle Pieces"
 
+class RandomizeCharacters(Toggle):
+    """
+    Adds characters to the item pool, and adds a location for winning a race as each character.
+    """
+    visibility = Visibility.none
+
+    display_name = "Randomize Characters"
+
+class RandomizeCars(Toggle):
+    """
+    Adds cars to the item pool, and adds a location for winning a race with each car.
+    """
+    visibility = Visibility.none
+
+    display_name = "Randomize Cars"
+
 class RandomizeHats(Choice):
     """
     Adds hats to the item pool
@@ -151,30 +167,69 @@ class RandomizeItems(Toggle):
     """
     display_name = "Randomize Items"
 
+class TrapPercentage(Range):
+    visibility = Visibility.none
+
+    display_name = "Trap Percentage"
+    
+    range_start = 0
+    range_end = 100
+    default = 0
+
+class DeathLink(Toggle):
+    """
+    Enables Death Link.
+    """
+    visibility = Visibility.none # I don't even know if we're adding this
+
+    display_name = "Death Link"
+
+
 @dataclass
 class GarfKartOptions(PerGameCommonOptions):
     # Goal Options
     goal: Goal
     cc_requirement: CCRequirement
-    puzzle_piece_count: PuzzlePieceCount
     time_trial_goal_grade: TimeTrialGoalGrade
 
-    # Randomizer Options
+    # Race Randomizer Options
     randomize_races: RandomizeRaces
     progressive_cups: ProgressiveCups
+
+    # Puzzle Piece Options
     randomize_puzzle_pieces: RandomizePuzzlePieces
+    puzzle_piece_count: PuzzlePieceCount
+
+    # Character Options
+    randomize_characters: RandomizeCharacters
+    randomize_cars: RandomizeCars
     randomize_hats: RandomizeHats
     randomize_spoilers: RandomizeSpoilers
+
+    # Other Options
     randomize_items: RandomizeItems
+    death_link: DeathLink
 
 
 option_groups = [
     OptionGroup(
         "Goal Options",
-        [Goal, CCRequirement, PuzzlePieceCount, TimeTrialGoalGrade],
+        [Goal, CCRequirement, TimeTrialGoalGrade],
     ),
     OptionGroup(
-        "Randomizer Options",
-        [RandomizeRaces, ProgressiveCups, RandomizePuzzlePieces, RandomizeSpoilers, RandomizeHats, RandomizeItems],
+        "Race Randomizer Options",
+        [RandomizeRaces, ProgressiveCups],
+    ),
+    OptionGroup(
+        "Puzzle Piece Options",
+        [RandomizePuzzlePieces, PuzzlePieceCount]
+    ),
+    OptionGroup(
+        "Character Options",
+        [RandomizeCharacters, RandomizeCars, RandomizeHats, RandomizeSpoilers]
+    ),
+    OptionGroup(
+        "Other Options",
+        [RandomizeItems, TrapPercentage, DeathLink],
     ),
 ]
