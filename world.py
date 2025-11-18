@@ -29,6 +29,10 @@ class GarfKartWorld(World):
 
     origin_region_name = "Menu"
 
+    # Helper variable stores puzzle pieces that aren't logically required, these
+    # may later be used as filler items in the filler item pool.
+    unused_puzzle_pieces = []
+
     # TODO: this shouldn't end up in v1.0
     def pre_fill(self):
         from BaseClasses import CollectionState
@@ -40,7 +44,7 @@ class GarfKartWorld(World):
         if len(unreachable_locations):
             raise Exception(f"There are unreachable locations, please let Felucia know: {unreachable_locations}")
         if not len(self.multiworld.itempool):
-            raise OptionError("There aren't any items in the item pool. Change your YAML and/or let Felucia know this is a bug.")
+            raise OptionError("There aren't any items in the item pool. Let Felucia know this is a bug.")
 
     def generate_early(self):
         if self.options.goal == "puzzle_piece_hunt":
@@ -65,5 +69,5 @@ class GarfKartWorld(World):
     # Copied from APQuest for the time being
     def fill_slot_data(self) -> Mapping[str, Any]:
         return self.options.as_dict(
-            "goal", "cc_requirement", "progressive_cups", "puzzle_piece_count"
+            "goal", "time_trial_goal_grade", "cc_requirement", "progressive_cups", "puzzle_piece_count"
         )
