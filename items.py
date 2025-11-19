@@ -144,6 +144,8 @@ def get_n_puzzle_pieces(n) -> list[str]:
             puzzle_pieces.append(f'{race} - Puzzle Piece {i+1}')
             if len(puzzle_pieces) == n:
                 return puzzle_pieces
+            
+    return puzzle_pieces
 
 def get_random_filler_item(world: GarfKartWorld) -> str:
     # TODO: Include traps
