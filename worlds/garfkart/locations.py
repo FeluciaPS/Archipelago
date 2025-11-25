@@ -145,7 +145,6 @@ def create_regular_locations(world: GarfKartWorld) -> None:
                 f'{cup}: Unlock Gold Spoiler (1)',
                 f'{cup}: Unlock Gold Spoiler (2)',
             ])
-            print(location_data)
             region.add_locations(location_data, GarfKartLocation)
         
         if world.options.randomize_spoilers == "combine_tiers":
