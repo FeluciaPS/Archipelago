@@ -104,7 +104,8 @@ LOCATION_NAME_TO_ID = {
     **HAT_UNLOCK_LOCATION_TABLE,
     **CUP_LOCATION_TABLE,
     **ADDITIONAL_CAR_LOCATIONS,
-    **ADDITIONAL_CHARACTER_LOCATIONS
+    **ADDITIONAL_CHARACTER_LOCATIONS,
+    **ADDITIONAL_ITEM_LOCATIONS
 }
 
 class GarfKartLocation(Location):
@@ -144,6 +145,7 @@ def create_regular_locations(world: GarfKartWorld) -> None:
                 f'{cup}: Unlock Gold Spoiler (1)',
                 f'{cup}: Unlock Gold Spoiler (2)',
             ])
+            print(location_data)
             region.add_locations(location_data, GarfKartLocation)
         
         if world.options.randomize_spoilers == "combine_tiers":

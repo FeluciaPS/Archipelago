@@ -198,7 +198,7 @@ def create_itempool(world: GarfKartWorld) -> None:
 
     # Add race victory locations
     if randomize_races:
-        shuffled_races = RACE_NAMES
+        shuffled_races = list(RACE_NAMES)
         world.random.shuffle(shuffled_races)
         starting_race_name = shuffled_races.pop()
         starting_race_object = world.create_item(f'Course Unlock - {starting_race_name}')
@@ -222,7 +222,7 @@ def create_itempool(world: GarfKartWorld) -> None:
             # Don't start with a random cup if randomize_races is also on, only
             # give a random starting cup if there's otherwise no progression
             # possible at all
-            shuffled_cups = CUP_NAMES
+            shuffled_cups = list(CUP_NAMES)
             if not randomize_races:
                 world.random.shuffle(shuffled_cups)
                 starting_cup_name = shuffled_cups.pop()
@@ -244,7 +244,6 @@ def create_itempool(world: GarfKartWorld) -> None:
         ]
 
         world.unused_puzzle_pieces = filter(lambda item: not(item in puzzle_pieces_in_logic), list(PUZZLE_PIECE_TABLE))
-        print(world.unused_puzzle_pieces)
 
     # Hat randomizer items
     if world.options.randomize_hats == "progressive":
