@@ -243,7 +243,11 @@ def create_itempool(world: GarfKartWorld) -> None:
             world.create_item(piece) for piece in puzzle_pieces_in_logic
         ]
 
-        world.unused_puzzle_pieces = filter(lambda item: not(item in puzzle_pieces_in_logic), list(PUZZLE_PIECE_TABLE))
+        world.unused_puzzle_pieces = [
+            item for item in PUZZLE_PIECE_TABLE
+                if item not in puzzle_pieces_in_logic
+        ]
+
 
     # Hat randomizer items
     if world.options.randomize_hats == "progressive":
