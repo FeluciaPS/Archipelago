@@ -74,21 +74,24 @@ class GarfKartWorld(World):
             "cc_requirement",
             "time_trial_goal_grade",
 
-            # Race Randomizer Options"
+            # Race Randomizer Options
             "randomize_races",
             "progressive_cups",
 
-            # Puzzle Piece Options"
+            # Puzzle Piece Options
             "randomize_puzzle_pieces",
             "puzzle_piece_count",
 
-            # Character Options"
+            # Character Options
             "randomize_characters",
             "randomize_cars",
             "randomize_hats",
             "randomize_spoilers",
 
-            # Other Options"
+            # Game Options
+            "lap_count",
+
+            # Other Randomizer Options
             "randomize_items",
             "trap_percentage",
             "death_link"

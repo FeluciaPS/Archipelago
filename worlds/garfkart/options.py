@@ -155,6 +155,16 @@ class RandomizeSpoilers(Choice):
     option_progressive = 1
     option_combine_tiers = 2
 
+class LapCount(Range):
+    """
+    Modifies the amount of laps in a race 
+    """
+    display_name = "Lap Count"
+    default = 3
+
+    range_start = 1
+    range_end = 10
+
 class RandomizeItems(Toggle):
     """
     Randomizes the items that can be received from item boxes and adds locations for
@@ -202,7 +212,18 @@ class GarfKartOptions(PerGameCommonOptions):
     randomize_hats: RandomizeHats
     randomize_spoilers: RandomizeSpoilers
 
-    # Other Options
+    # Game Options
+    lap_count: LapCount
+    """
+    Other game option ideas:
+    - cpu_scaling (scales CPU car speed up/down by a percentage)
+    - rubber_banding (scales CPU rubber banding settings to speed them up when they're significantly behind and
+        slow them down when they're significantly ahead)
+    - no_cpu (disable CPUs entirely)
+    """
+
+
+    # Other Randomizer Options
     randomize_items: RandomizeItems
     trap_percentage: TrapPercentage
     death_link: DeathLink
@@ -226,7 +247,11 @@ option_groups = [
         [RandomizeCharacters, RandomizeCars, RandomizeHats, RandomizeSpoilers]
     ),
     OptionGroup(
-        "Other Options",
+        "Game Options",
+        [LapCount],
+    ),
+    OptionGroup(
+        "Other Randomizer Options",
         [RandomizeItems, TrapPercentage, DeathLink],
     ),
 ]
