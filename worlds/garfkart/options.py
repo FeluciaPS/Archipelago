@@ -220,6 +220,7 @@ class GarfKartOptions(PerGameCommonOptions):
 
     # Game Options
     lap_count: LapCount
+    disable_cpu_items: DisableCPUItems
     """
     Other game option ideas:
     - cpu_scaling (scales CPU car speed up/down by a percentage)
@@ -254,7 +255,7 @@ option_groups = [
     ),
     OptionGroup(
         "Game Options",
-        [LapCount],
+        [LapCount, DisableCPUItems],
     ),
     OptionGroup(
         "Other Randomizer Options",
