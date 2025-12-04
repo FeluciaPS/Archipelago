@@ -90,6 +90,7 @@ class GarfKartWorld(World):
 
             # Game Options
             "lap_count",
+            "disable_cpu_items",
 
             # Other Randomizer Options
             "randomize_items",
