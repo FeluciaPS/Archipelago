@@ -165,6 +165,12 @@ class LapCount(Range):
     range_start = 1
     range_end = 10
 
+class DisableCPUItems(Toggle):
+    """
+    Prevents CPUs from using items for a less chaotic experience.
+    """
+    display_name = "Disable CPU Items"
+
 class RandomizeItems(Toggle):
     """
     Randomizes the items that can be received from item boxes and adds locations for
