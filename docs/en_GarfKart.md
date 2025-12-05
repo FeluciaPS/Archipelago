@@ -14,7 +14,7 @@ Here is what can be randomized:
 - Items
 - Puzzle Pieces
 
-## What Garfield Kart items can appear in other players' worlds?
+## What Garfield Kart - Furious Racing items can appear in other players' worlds?
 Anything you choose to randomize in the game will be sent out to the multiworld, so you'll need to be sent new courses, puzzle pieces, items to use, spoilers/hats, and cups, depending on your settings.
 
 ## Where is the options page?
