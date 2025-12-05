@@ -2,7 +2,7 @@
 
 ## What is this game?
 
-Garfield Kart: Furious Racing is a remaster of the original Garfield Kart, released on Steam. It's a kart racer akin to games like Mario Kart, with a lot of jank, and a whole lotta lasagna!
+Garfield Kart - Furious Racing is a remaster of the original Garfield Kart, released on Steam. It's a kart racer akin to games like Mario Kart, with a lot of jank, and a whole lotta lasagna!
 
 ## What does randomization do to this game?
 
