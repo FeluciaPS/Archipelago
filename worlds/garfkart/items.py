@@ -151,7 +151,7 @@ def get_n_puzzle_pieces(n) -> list[str]:
 @dataclass
 class ItemState:
     starting_item: GarfKartItem
-    items: list[GarfKartItem]
+    pool_items: list[GarfKartItem]
 
 def create_randomized_item_state(world: GarfKartWorld, items):
     shuffled_items = list(items) # Make a copy to avoid mutation
@@ -220,7 +220,7 @@ def create_itempool(world: GarfKartWorld) -> None:
         ])
 
         world.push_precollected(state.starting_item)
-        itempool += state.items
+        itempool += state.pool_items
 
     # Add cup victory locations
     if randomize_cups:
@@ -246,7 +246,7 @@ def create_itempool(world: GarfKartWorld) -> None:
             else:
                 state = create_randomized_item_state(world, item_names)
                 world.push_precollected(state.starting_item)
-                itempool += state.items
+                itempool += state.pool_items
 
     # randomize_puzzle_pieces is automatically set to True if the goal is 
     # Puzzle Piece Hunt, so we don't need to check both.
@@ -320,7 +320,7 @@ def create_itempool(world: GarfKartWorld) -> None:
         else:
             state = create_randomized_item_state(world, ITEM_BOX_RANDOMIZER_TABLE)
             world.push_precollected(state.starting_item)
-            itempool += state.items
+            itempool += state.pool_items
 
     # Compare item pool size to location size, and fill what's left with
     # filler items.
