@@ -127,6 +127,14 @@ def create_regular_locations(world: GarfKartWorld) -> None:
     randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
     randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
 
+    if world.options.randomize_characters:
+        region = world.get_region("Menu")
+        region.add_locations(ADDITIONAL_CHARACTER_LOCATIONS)
+
+    if world.options.randomize_cars:
+        region = world.get_region("Menu")
+        region.add_locations(ADDITIONAL_CAR_LOCATIONS)
+
     for cup in CUP_NAMES:
         region = world.get_region(cup)
 

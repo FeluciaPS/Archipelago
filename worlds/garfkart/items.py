@@ -11,6 +11,7 @@
  
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .world import GarfKartWorld
@@ -147,6 +148,22 @@ def get_n_puzzle_pieces(n) -> list[str]:
             
     return puzzle_pieces
 
+@dataclass
+class ItemState:
+    starting_item: GarfKartItem
+    items: list[GarfKartItem]
+
+def create_randomized_item_state(world: GarfKartWorld, items):
+    shuffled_items = list(items) # Make a copy to avoid mutation
+    world.random.shuffle(shuffled_items)
+    starting_item = shuffled_items.pop()
+    starting_object = world.create_item(starting_item)
+    item_objects = [
+        world.create_item(item) for item in shuffled_items
+    ]
+
+    return ItemState(starting_object, item_objects)
+
 def get_random_filler_item(world: GarfKartWorld) -> str:
     # TODO: Include traps
     # TODO: Optionally include puzzle pieces, since they're filler when not the goal
@@ -198,15 +215,12 @@ def create_itempool(world: GarfKartWorld) -> None:
 
     # Add race victory locations
     if randomize_races:
-        shuffled_races = list(RACE_NAMES)
-        world.random.shuffle(shuffled_races)
-        starting_race_name = shuffled_races.pop()
-        starting_race_object = world.create_item(f'Course Unlock - {starting_race_name}')
-        world.push_precollected(starting_race_object)
+        state = create_randomized_item_state(world, [
+            f'Course Unlock - {race}' for race in RACE_NAMES
+        ])
 
-        itempool += [
-            world.create_item(f'Course Unlock - {race}') for race in shuffled_races
-        ]
+        world.push_precollected(state.starting_item)
+        itempool += state.items
 
     # Add cup victory locations
     if randomize_cups:
@@ -222,17 +236,17 @@ def create_itempool(world: GarfKartWorld) -> None:
             # Don't start with a random cup if randomize_races is also on, only
             # give a random starting cup if there's otherwise no progression
             # possible at all
-            shuffled_cups = list(CUP_NAMES)
-            if not randomize_races:
-                world.random.shuffle(shuffled_cups)
-                starting_cup_name = shuffled_cups.pop()
-                starting_cup_object = world.create_item(f'Cup Unlock - {starting_cup_name}')
-                world.push_precollected(starting_cup_object)
-
-            # Add the non-precollected cups to the itempool
-            itempool += [
-                world.create_item(f'Cup Unlock - {cup}') for cup in shuffled_cups
+            item_names = [
+                f'Cup Unlock - {cup}' for cup in CUP_NAMES
             ]
+            if randomize_races:
+                itempool += [
+                    world.create_item(item) for item in item_names
+                ]
+            else:
+                state = create_randomized_item_state(world, item_names)
+                world.push_precollected(state.starting_item)
+                itempool += state.items
 
     # randomize_puzzle_pieces is automatically set to True if the goal is 
     # Puzzle Piece Hunt, so we don't need to check both.
@@ -248,6 +262,20 @@ def create_itempool(world: GarfKartWorld) -> None:
                 if item not in puzzle_pieces_in_logic
         ]
 
+    # Character and Car randomizer
+    if world.options.randomize_characters:
+        state = create_randomized_item_state([
+            f'Character Unlock - {character}' for character in CHARACTER_NAMES
+        ])
+        world.push_precollected(state.starting_item)
+        itempool += state.items
+
+    if world.options.randomize_cars:
+        state = create_randomized_item_state([
+            f'Car Unlock - {car}' for car in CAR_NAMES
+        ])
+        world.push_precollected(state.starting_item)
+        itempool += state.items
 
     # Hat randomizer items
     if world.options.randomize_hats == "progressive":
@@ -290,14 +318,9 @@ def create_itempool(world: GarfKartWorld) -> None:
                 world.create_item('Item Unlock - Spring')
             ]
         else:
-            shuffled_items = list(ITEM_BOX_RANDOMIZER_TABLE)
-            world.random.shuffle(shuffled_items)
-            starting_item_name = shuffled_items.pop()
-            starting_item_object = world.create_item(starting_item_name)
-            world.push_precollected(starting_item_object)
-            itempool += [
-                world.create_item(item) for item in shuffled_items
-            ]
+            state = create_randomized_item_state(world, ITEM_BOX_RANDOMIZER_TABLE)
+            world.push_precollected(state.starting_item)
+            itempool += state.items
 
     # Compare item pool size to location size, and fill what's left with
     # filler items.

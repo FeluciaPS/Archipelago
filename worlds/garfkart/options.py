@@ -113,16 +113,12 @@ class RandomizeCharacters(Toggle):
     """
     Adds characters to the item pool, and adds a location for winning a race as each character.
     """
-    visibility = Visibility.none
-
     display_name = "Randomize Characters"
 
 class RandomizeCars(Toggle):
     """
     Adds cars to the item pool, and adds a location for winning a race with each car.
     """
-    visibility = Visibility.none
-
     display_name = "Randomize Cars"
 
 class RandomizeHats(Choice):
