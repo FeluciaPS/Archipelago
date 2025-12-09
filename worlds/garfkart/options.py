@@ -171,11 +171,20 @@ class DisableCPUItems(Toggle):
     """
     display_name = "Disable CPU Items"
 
+class SpringsOnly(Toggle):
+    """
+    Item boxes can only give springs. This makes puzzle piece hunting a lot easier.
+
+    If Randomize Items is enabled, you start without springs unlocked and item boxes
+    do nothing.
+    """
+    display_name = "Springs Only"
+
 class RandomizeItems(Toggle):
     """
     Randomizes the items that can be received from item boxes and adds locations for
     acquiring each item from an item box for the first time. 
-    Always starts with one item unlocked.
+    Always starts with one item unlocked, unless Springs Only is enabled.
     """
     display_name = "Randomize Items"
 
@@ -221,6 +230,7 @@ class GarfKartOptions(PerGameCommonOptions):
     # Game Options
     lap_count: LapCount
     disable_cpu_items: DisableCPUItems
+    springs_only: SpringsOnly
     """
     Other game option ideas:
     - cpu_scaling (scales CPU car speed up/down by a percentage)
@@ -255,7 +265,7 @@ option_groups = [
     ),
     OptionGroup(
         "Game Options",
-        [LapCount, DisableCPUItems],
+        [LapCount, DisableCPUItems, SpringsOnly],
     ),
     OptionGroup(
         "Other Randomizer Options",

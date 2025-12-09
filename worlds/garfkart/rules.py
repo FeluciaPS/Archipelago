@@ -96,16 +96,20 @@ def set_all_location_rules(world: GarfKartWorld):
                     "Item Unlock - Spring"
                 ]
 
-                if PUZZLE_PIECE_REQUIREMENTS[race][piece] == PuzzlePieceRequirements.Either:
+                if PUZZLE_PIECE_REQUIREMENTS[race][piece] == PuzzlePieceRequirements.Either and not world.options.springs_only:
                     required_items.append("Item Unlock - Lasagna")
 
                 set_rule(location, lambda state, items=required_items: state.has_any(items, world.player))
 
     # Item acquisition locations can't be accessed until you have the associated item
     if world.options.randomize_items:
-        for item in ITEM_NAMES:
-            location = world.get_location(f'Find Item: {item}')
-            set_rule(location, lambda state: state.has(f"Item Unlock - {item}", world.player))
+        if world.options.springs_only:
+            location = world.get_location("Find Item: Spring")
+            set_rule(location, lambda state: state.has("Item Unlock - Spring", world.player))
+        else:
+            for item in ITEM_NAMES:
+                location = world.get_location(f'Find Item: {item}')
+                set_rule(location, lambda state: state.has(f"Item Unlock - {item}", world.player))
 
 def set_completion_condition(world: GarfKartWorld):
     randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"

@@ -185,7 +185,11 @@ def create_regular_locations(world: GarfKartWorld) -> None:
             
     if world.options.randomize_items:
         region = world.get_region("Menu")
-        region.add_locations(ADDITIONAL_ITEM_LOCATIONS, GarfKartLocation)
+        if world.options.springs_only:
+            location_data = get_location_names_with_ids(["Find Item: Spring"])
+            region.add_locations(location_data)
+        else:
+            region.add_locations(ADDITIONAL_ITEM_LOCATIONS, GarfKartLocation)
 
 def create_events(world: GarfKartWorld) -> None:
     pass

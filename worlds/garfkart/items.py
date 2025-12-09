@@ -285,15 +285,19 @@ def create_itempool(world: GarfKartWorld) -> None:
 
     # Item randomizer!
     if world.options.randomize_items:
-
-        shuffled_items = list(ITEM_BOX_RANDOMIZER_TABLE)
-        world.random.shuffle(shuffled_items)
-        starting_item_name = shuffled_items.pop()
-        starting_item_object = world.create_item(starting_item_name)
-        world.push_precollected(starting_item_object)
-        itempool += [
-            world.create_item(item) for item in shuffled_items
-        ]
+        if world.options.springs_only:
+            itempool += [
+                world.create_item('Item Unlock - Spring')
+            ]
+        else:
+            shuffled_items = list(ITEM_BOX_RANDOMIZER_TABLE)
+            world.random.shuffle(shuffled_items)
+            starting_item_name = shuffled_items.pop()
+            starting_item_object = world.create_item(starting_item_name)
+            world.push_precollected(starting_item_object)
+            itempool += [
+                world.create_item(item) for item in shuffled_items
+            ]
 
     # Compare item pool size to location size, and fill what's left with
     # filler items.
