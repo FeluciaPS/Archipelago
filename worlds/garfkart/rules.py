@@ -91,13 +91,13 @@ def set_all_location_rules(world: GarfKartWorld):
     if world.options.randomize_characters:
         for character in CHARACTER_NAMES:
             location = world.get_location(f'Win Race as {character}')
-            set_rule(location, lambda state: state.has(f"Character Unlock - {character}", world.player))
+            set_rule(location, lambda state: state.has(f"{character}", world.player))
 
     # And same for karts
     if world.options.randomize_karts:
         for kart in KART_NAMES:
             location = world.get_location(f'Win Race with {kart}')
-            set_rule(location, lambda state: state.has(f"Kart Unlock - {kart}", world.player))
+            set_rule(location, lambda state: state.has(f"{kart}", world.player))
 
     # Certain puzzle pieces require a Spring or Lasagna item to be accessed
     if world.options.randomize_puzzle_pieces and world.options.randomize_items:

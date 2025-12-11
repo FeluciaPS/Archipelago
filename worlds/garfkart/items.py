@@ -197,6 +197,9 @@ def create_item_object(world: GarfKartWorld, name: str):
             if name in ["Item Unlock - Spring", "Item Unlock - Lasagna"]:
                 classification = ItemClassification.progression
 
+    if name in KART_NAMES or name in CHARACTER_NAMES:
+        classification = ItemClassification.progression_deprioritized_skip_balancing
+
     # Filler is filler (no way!)
     if name in FILLER_ITEM_TABLE:
         classification = ItemClassification.filler
