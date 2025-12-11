@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from .world import GarfKartWorld
 
 from BaseClasses import Item, ItemClassification
-from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, CAR_NAMES, HAT_NAMES, SPOILER_NAMES
+from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, KART_NAMES, HAT_NAMES, SPOILER_NAMES
 
 
 # Puzzle Pieces are named by race and numbered 1-3 to match the order 
@@ -37,7 +37,7 @@ CUP_ITEM_TABLE = {
     "Cup Unlock - Ice Cream Cup": 204,
 }
 CHARACTER_ITEM_TABLE = {}
-CAR_ITEM_TABLE = {}
+KART_ITEM_TABLE = {}
 HAT_ITEM_TABLE = {}
 SPOILER_ITEM_TABLE = {}
 ITEM_BOX_RANDOMIZER_TABLE = {
@@ -72,9 +72,9 @@ for index, race in enumerate(RACE_NAMES):
 for index, character in enumerate(CHARACTER_NAMES):
     CHARACTER_ITEM_TABLE[character] = index + 301
 
-# Generate 8 car unlock items
-for index, car in enumerate(CAR_NAMES):
-    CAR_ITEM_TABLE[car] = index + 351
+# Generate 8 kart unlock items
+for index, kart in enumerate(KART_NAMES):
+    KART_ITEM_TABLE[kart] = index + 351
 
 # Generate 48 hat unlock items
 for index, hat in enumerate(HAT_NAMES):
@@ -111,7 +111,7 @@ ITEM_NAME_TO_ID = {
     **TIME_TRIAL_ITEM_TABLE, # 16
     **CUP_ITEM_TABLE, # 4
     **CHARACTER_ITEM_TABLE, # 8
-    **CAR_ITEM_TABLE, # 8
+    **KART_ITEM_TABLE, # 8
     **HAT_ITEM_TABLE, # 48
     **SPOILER_ITEM_TABLE, # 24 
     **ITEM_BOX_RANDOMIZER_TABLE, # 8
@@ -262,7 +262,7 @@ def create_itempool(world: GarfKartWorld) -> None:
                 if item not in puzzle_pieces_in_logic
         ]
 
-    # Character and Car randomizer
+    # Character and Kart randomizer
     if world.options.randomize_characters:
         state = create_randomized_item_state([
             f'Character Unlock - {character}' for character in CHARACTER_NAMES
@@ -270,9 +270,9 @@ def create_itempool(world: GarfKartWorld) -> None:
         world.push_precollected(state.starting_item)
         itempool += state.items
 
-    if world.options.randomize_cars:
+    if world.options.randomize_karts:
         state = create_randomized_item_state([
-            f'Car Unlock - {car}' for car in CAR_NAMES
+            f'Kart Unlock - {kart}' for kart in KART_NAMES
         ])
         world.push_precollected(state.starting_item)
         itempool += state.items

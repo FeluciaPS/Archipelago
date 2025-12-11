@@ -84,7 +84,7 @@ class GarfKartWorld(World):
 
             # Character Options
             "randomize_characters",
-            "randomize_cars",
+            "randomize_karts",
             "randomize_hats",
             "randomize_spoilers",
 

@@ -4,7 +4,7 @@ from __future__ import annotations
 # Logic goes here
 
 from .items import get_n_puzzle_pieces
-from .data import CAR_NAMES, CHARACTER_NAMES, CUP_NAMES, CUPS_BY_RACE, ITEM_NAMES, PUZZLE_PIECE_REQUIREMENTS, RACE_NAMES, RACES_BY_CUP, PuzzlePieceRequirements
+from .data import KART_NAMES, CHARACTER_NAMES, CUP_NAMES, CUPS_BY_RACE, ITEM_NAMES, PUZZLE_PIECE_REQUIREMENTS, RACE_NAMES, RACES_BY_CUP, PuzzlePieceRequirements
 from worlds.generic.Rules import set_rule
 
 from typing import TYPE_CHECKING
@@ -93,11 +93,11 @@ def set_all_location_rules(world: GarfKartWorld):
             location = world.get_location(f'Win Race as {character}')
             set_rule(location, lambda state: state.has(f"Character Unlock - {character}", world.player))
 
-    # And same for cars
-    if world.options.randomize_cars:
-        for car in CAR_NAMES:
-            location = world.get_location(f'Win Race with {car}')
-            set_rule(location, lambda state: state.has(f"Car Unlock - {car}", world.player))
+    # And same for karts
+    if world.options.randomize_karts:
+        for kart in KART_NAMES:
+            location = world.get_location(f'Win Race with {kart}')
+            set_rule(location, lambda state: state.has(f"Kart Unlock - {kart}", world.player))
 
     # Certain puzzle pieces require a Spring or Lasagna item to be accessed
     if world.options.randomize_puzzle_pieces and world.options.randomize_items:

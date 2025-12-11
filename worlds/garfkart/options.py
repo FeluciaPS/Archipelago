@@ -59,9 +59,9 @@ class PuzzlePieceCount(Range):
 class TimeTrialGoalGrade(Choice):
     """
     Sets the minimum medal grade required for the Time Trials goal
-    !!!IMPORTANT!!! Platinum medals require certain car combinations to be 
+    !!!IMPORTANT!!! Platinum medals require certain kart combinations to be 
     reasonably achievable. These aren't implemented in logic yet, so randomizing
-    cart loadouts may lead to impossible games.
+    kart loadouts may lead to impossible games.
 
     If the goal is not Time Trials, this option does nothing.
     """
@@ -115,11 +115,11 @@ class RandomizeCharacters(Toggle):
     """
     display_name = "Randomize Characters"
 
-class RandomizeCars(Toggle):
+class RandomizeKarts(Toggle):
     """
-    Adds cars to the item pool, and adds a location for winning a race with each car.
+    Adds karts to the item pool, and adds a location for winning a race with each kart.
     """
-    display_name = "Randomize Cars"
+    display_name = "Randomize Karts"
 
 class RandomizeHats(Choice):
     """
@@ -219,7 +219,7 @@ class GarfKartOptions(PerGameCommonOptions):
 
     # Character Options
     randomize_characters: RandomizeCharacters
-    randomize_cars: RandomizeCars
+    randomize_karts: RandomizeKarts
     randomize_hats: RandomizeHats
     randomize_spoilers: RandomizeSpoilers
 
@@ -229,7 +229,7 @@ class GarfKartOptions(PerGameCommonOptions):
     springs_only: SpringsOnly
     """
     Other game option ideas:
-    - cpu_scaling (scales CPU car speed up/down by a percentage)
+    - cpu_scaling (scales CPU kart speed up/down by a percentage)
     - rubber_banding (scales CPU rubber banding settings to speed them up when they're significantly behind and
         slow them down when they're significantly ahead)
     - no_cpu (disable CPUs entirely)
@@ -257,7 +257,7 @@ option_groups = [
     ),
     OptionGroup(
         "Character Options",
-        [RandomizeCharacters, RandomizeCars, RandomizeHats, RandomizeSpoilers]
+        [RandomizeCharacters, RandomizeKarts, RandomizeHats, RandomizeSpoilers]
     ),
     OptionGroup(
         "Game Options",

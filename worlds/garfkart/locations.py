@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from .world import GarfKartWorld
 
 from BaseClasses import Location
-from .data import CAR_NAMES, CHARACTER_NAMES, CUP_NAMES, RACE_NAMES
+from .data import KART_NAMES, CHARACTER_NAMES, CUP_NAMES, RACE_NAMES
 
 
 # Locations for winning cups are short enough to hardcode instead of generating
@@ -69,10 +69,10 @@ for index, race in enumerate(RACE_NAMES):
     TIME_TRIAL_LOCATION_TABLE[f'{race}: Time Trial Gold'] = index + 61
     TIME_TRIAL_LOCATION_TABLE[f'{race}: Time Trial Platinum'] = index + 81
 
-# Additional locations for character and car unlocks that don't exist in the
+# Additional locations for character and kart unlocks that don't exist in the
 # vanilla game
 ADDITIONAL_CHARACTER_LOCATIONS = {}
-ADDITIONAL_CAR_LOCATIONS = {}
+ADDITIONAL_KART_LOCATIONS = {}
 
 # 9 locations for item unlocks
 ADDITIONAL_ITEM_LOCATIONS = {
@@ -91,9 +91,9 @@ ADDITIONAL_ITEM_LOCATIONS = {
 for index, character in enumerate(CHARACTER_NAMES):
     ADDITIONAL_CHARACTER_LOCATIONS[f'Win Race as {character}'] = index + 1001
 
-# 8 locations for car unlocks
-for index, car in enumerate(CAR_NAMES):
-    ADDITIONAL_CAR_LOCATIONS[f'Win Race with {car}'] = index + 1051
+# 8 locations for kart unlocks
+for index, kart in enumerate(KART_NAMES):
+    ADDITIONAL_KART_LOCATIONS[f'Win Race with {kart}'] = index + 1051
 
 
 LOCATION_NAME_TO_ID = {
@@ -103,7 +103,7 @@ LOCATION_NAME_TO_ID = {
     **SPOILER_UNLOCK_LOCATION_TABLE,
     **HAT_UNLOCK_LOCATION_TABLE,
     **CUP_LOCATION_TABLE,
-    **ADDITIONAL_CAR_LOCATIONS,
+    **ADDITIONAL_KART_LOCATIONS,
     **ADDITIONAL_CHARACTER_LOCATIONS,
     **ADDITIONAL_ITEM_LOCATIONS
 }
@@ -131,9 +131,9 @@ def create_regular_locations(world: GarfKartWorld) -> None:
         region = world.get_region("Menu")
         region.add_locations(ADDITIONAL_CHARACTER_LOCATIONS)
 
-    if world.options.randomize_cars:
+    if world.options.randomize_karts:
         region = world.get_region("Menu")
-        region.add_locations(ADDITIONAL_CAR_LOCATIONS)
+        region.add_locations(ADDITIONAL_KART_LOCATIONS)
 
     for cup in CUP_NAMES:
         region = world.get_region(cup)
