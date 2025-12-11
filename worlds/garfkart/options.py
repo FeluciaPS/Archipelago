@@ -59,9 +59,9 @@ class PuzzlePieceCount(Range):
 class TimeTrialGoalGrade(Choice):
     """
     Sets the minimum medal grade required for the Time Trials goal
-    !!!IMPORTANT!!! Platinum medals require certain car combinations to be 
+    !!!IMPORTANT!!! Platinum medals require certain kart combinations to be 
     reasonably achievable. These aren't implemented in logic yet, so randomizing
-    cart loadouts may lead to impossible games.
+    kart loadouts may lead to impossible games.
 
     If the goal is not Time Trials, this option does nothing.
     """
@@ -113,17 +113,13 @@ class RandomizeCharacters(Toggle):
     """
     Adds characters to the item pool, and adds a location for winning a race as each character.
     """
-    visibility = Visibility.none
-
     display_name = "Randomize Characters"
 
-class RandomizeCars(Toggle):
+class RandomizeKarts(Toggle):
     """
-    Adds cars to the item pool, and adds a location for winning a race with each car.
+    Adds karts to the item pool, and adds a location for winning a race with each kart.
     """
-    visibility = Visibility.none
-
-    display_name = "Randomize Cars"
+    display_name = "Randomize Karts"
 
 class RandomizeHats(Choice):
     """
@@ -171,11 +167,20 @@ class DisableCPUItems(Toggle):
     """
     display_name = "Disable CPU Items"
 
+class SpringsOnly(Toggle):
+    """
+    Item boxes can only give springs. This makes puzzle piece hunting a lot easier.
+
+    If Randomize Items is enabled, you start without springs unlocked and item boxes
+    do nothing.
+    """
+    display_name = "Springs Only"
+
 class RandomizeItems(Toggle):
     """
     Randomizes the items that can be received from item boxes and adds locations for
     acquiring each item from an item box for the first time. 
-    Always starts with one item unlocked.
+    Always starts with one item unlocked, unless Springs Only is enabled.
     """
     display_name = "Randomize Items"
 
@@ -214,16 +219,17 @@ class GarfKartOptions(PerGameCommonOptions):
 
     # Character Options
     randomize_characters: RandomizeCharacters
-    randomize_cars: RandomizeCars
+    randomize_karts: RandomizeKarts
     randomize_hats: RandomizeHats
     randomize_spoilers: RandomizeSpoilers
 
     # Game Options
     lap_count: LapCount
     disable_cpu_items: DisableCPUItems
+    springs_only: SpringsOnly
     """
     Other game option ideas:
-    - cpu_scaling (scales CPU car speed up/down by a percentage)
+    - cpu_scaling (scales CPU kart speed up/down by a percentage)
     - rubber_banding (scales CPU rubber banding settings to speed them up when they're significantly behind and
         slow them down when they're significantly ahead)
     - no_cpu (disable CPUs entirely)
@@ -251,11 +257,11 @@ option_groups = [
     ),
     OptionGroup(
         "Character Options",
-        [RandomizeCharacters, RandomizeCars, RandomizeHats, RandomizeSpoilers]
+        [RandomizeCharacters, RandomizeKarts, RandomizeHats, RandomizeSpoilers]
     ),
     OptionGroup(
         "Game Options",
-        [LapCount, DisableCPUItems],
+        [LapCount, DisableCPUItems, SpringsOnly],
     ),
     OptionGroup(
         "Other Randomizer Options",

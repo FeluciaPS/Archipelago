@@ -75,7 +75,7 @@ CHARACTER_NAMES = [
     "Harry",
 ]
 
-CAR_NAMES = [
+KART_NAMES = [
     "Formula Zzzz",
     "Abstract-Kart",
     "Medi-Kart",
