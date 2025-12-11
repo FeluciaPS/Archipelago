@@ -268,14 +268,14 @@ def create_itempool(world: GarfKartWorld) -> None:
             f'Character Unlock - {character}' for character in CHARACTER_NAMES
         ])
         world.push_precollected(state.starting_item)
-        itempool += state.items
+        itempool += state.pool_items
 
     if world.options.randomize_karts:
         state = create_randomized_item_state(world, [
             f'Kart Unlock - {kart}' for kart in KART_NAMES
         ])
         world.push_precollected(state.starting_item)
-        itempool += state.items
+        itempool += state.pool_items
 
     # Hat randomizer items
     if world.options.randomize_hats == "progressive":
