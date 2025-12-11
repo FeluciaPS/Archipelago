@@ -26,7 +26,7 @@ def create_and_connect_regions(world: GarfKartWorld):
 def create_regions(world: GarfKartWorld):
 
     # Menu is its own region, it serves as the origin region. It only has
-    # "beat race as character/car" locations attached, which don't exist yet
+    # "beat race as character/kart" locations attached, which don't exist yet
     # in v0.2
     menu = Region("Menu", world.player, world.multiworld)
     

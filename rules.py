@@ -4,7 +4,7 @@ from __future__ import annotations
 # Logic goes here
 
 from .items import get_n_puzzle_pieces
-from .data import CUP_NAMES, CUPS_BY_RACE, ITEM_NAMES, PUZZLE_PIECE_REQUIREMENTS, RACE_NAMES, RACES_BY_CUP, PuzzlePieceRequirements
+from .data import KART_NAMES, CHARACTER_NAMES, CUP_NAMES, CUPS_BY_RACE, ITEM_NAMES, PUZZLE_PIECE_REQUIREMENTS, RACE_NAMES, RACES_BY_CUP, PuzzlePieceRequirements
 from worlds.generic.Rules import set_rule
 
 from typing import TYPE_CHECKING
@@ -87,6 +87,18 @@ def set_all_entrance_rules(world: GarfKartWorld):
 
 def set_all_location_rules(world: GarfKartWorld):
 
+    # Winning a race as a character also requires having the character unlock
+    if world.options.randomize_characters:
+        for character in CHARACTER_NAMES:
+            location = world.get_location(f'Win Race as {character}')
+            set_rule(location, lambda state: state.has(f"{character}", world.player))
+
+    # And same for karts
+    if world.options.randomize_karts:
+        for kart in KART_NAMES:
+            location = world.get_location(f'Win Race with {kart}')
+            set_rule(location, lambda state: state.has(f"{kart}", world.player))
+
     # Certain puzzle pieces require a Spring or Lasagna item to be accessed
     if world.options.randomize_puzzle_pieces and world.options.randomize_items:
         for race in PUZZLE_PIECE_REQUIREMENTS:
@@ -96,16 +108,20 @@ def set_all_location_rules(world: GarfKartWorld):
                     "Item Unlock - Spring"
                 ]
 
-                if PUZZLE_PIECE_REQUIREMENTS[race][piece] == PuzzlePieceRequirements.Either:
+                if PUZZLE_PIECE_REQUIREMENTS[race][piece] == PuzzlePieceRequirements.Either and not world.options.springs_only:
                     required_items.append("Item Unlock - Lasagna")
 
                 set_rule(location, lambda state, items=required_items: state.has_any(items, world.player))
 
     # Item acquisition locations can't be accessed until you have the associated item
     if world.options.randomize_items:
-        for item in ITEM_NAMES:
-            location = world.get_location(f'Find Item: {item}')
-            set_rule(location, lambda state: state.has(f"Item Unlock - {item}", world.player))
+        if world.options.springs_only:
+            location = world.get_location("Find Item: Spring")
+            set_rule(location, lambda state: state.has("Item Unlock - Spring", world.player))
+        else:
+            for item in ITEM_NAMES:
+                location = world.get_location(f'Find Item: {item}')
+                set_rule(location, lambda state: state.has(f"Item Unlock - {item}", world.player))
 
 def set_completion_condition(world: GarfKartWorld):
     randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"

@@ -84,13 +84,14 @@ class GarfKartWorld(World):
 
             # Character Options
             "randomize_characters",
-            "randomize_cars",
+            "randomize_karts",
             "randomize_hats",
             "randomize_spoilers",
 
             # Game Options
             "lap_count",
             "disable_cpu_items",
+            "springs_only",
 
             # Other Randomizer Options
             "randomize_items",
