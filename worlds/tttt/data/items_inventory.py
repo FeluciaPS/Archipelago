@@ -75,12 +75,21 @@ PET_BLUEPRINT_ITEM_NAMES = [
     "Pet - Gerelex (Blueprint)",
 ]
 
+WEAPON_ITEM_NAMES = [
+    "Toy Sword",
+    "Toy Axe",
+    "Wrench",
+    "Baseball Bat",
+    "Broken Pipe"
+]
+
 MISC_ITEM_NAMES = [
     "Shovel",
     "Bug Net",
     "Map",
     "Cell Phone",
     "Junk Finder Hat",
+    "Turbo Upgrade",
     "Para Glider",
     "Government Document",
     "Terry Apartment Keys",
