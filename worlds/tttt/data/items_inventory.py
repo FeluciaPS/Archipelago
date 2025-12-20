@@ -33,6 +33,7 @@ OTHER_HAT_NAMES = [
     "Bird Hat 4",
     "Familiar Shoe Hat",
     "Green Cap Hat",
+    "Big Beard Hat",
     "Geometry Hat",
 ]
 
