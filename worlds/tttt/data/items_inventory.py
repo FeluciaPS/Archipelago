@@ -100,8 +100,8 @@ MISC_ITEM_NAMES = [
 # Turbo Junk item names
 TURBO_JUNK_ITEM_NAMES = [
     "Turbo Junk",               # 1 turbo junk
-    "Buried Turbo Junk Bundle", # Find value: SOAllAvailableContent.Get.balancing.turboJunkPerBurriedTurboJunkCombo
-    "Turbo Junk Bundle",        # Find value: SOAllAvailableContent.Get.balancing.turboJunkPerTurboJunkCombo
+    "Buried Turbo Junk Bundle", # 5 turbo junk
+    "Turbo Junk Bundle",        # 15 turbo junk
     "Turbo Junk Trash Can"      # 100 turbo junk
 ]
 
