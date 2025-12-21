@@ -3,4 +3,7 @@ from worlds.AutoWorld import World
 from . import items, locations, options, regions, rules, web_world
 
 class TTTTWorld(World):
-    pass
+    game = "Tiny Terry's Turbo Trip"
+
+    options_dataclass = options.TTTTOptions
+    options: options.TTTTOptions
