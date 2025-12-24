@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 from BaseClasses import Item, ItemClassification
 from .data import RACE_NAMES, CUP_NAMES, CHARACTER_NAMES, KART_NAMES, HAT_NAMES, SPOILER_NAMES
-
+from .options import RandomizerType, is_cups_randomized, is_races_randomized
 
 # Puzzle Pieces are named by race and numbered 1-3 to match the order 
 # in which they are displayed in-game
@@ -213,8 +213,8 @@ def create_item_object(world: GarfKartWorld, name: str):
 def create_itempool(world: GarfKartWorld) -> None:
     itempool: list[Item] = []
 
-    randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
-    randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
+    randomize_races = is_races_randomized(world) == RandomizerType.random
+    randomize_cups = is_cups_randomized(world) == RandomizerType.random
 
     # Add race victory locations
     if randomize_races:

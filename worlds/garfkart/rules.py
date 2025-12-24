@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from .items import get_n_puzzle_pieces
 from .data import KART_NAMES, CHARACTER_NAMES, CUP_NAMES, CUPS_BY_RACE, ITEM_NAMES, PUZZLE_PIECE_REQUIREMENTS, RACE_NAMES, RACES_BY_CUP, PuzzlePieceRequirements
+from .options import RandomizerType, is_cups_randomized, is_races_randomized
+
 from worlds.generic.Rules import set_rule
 
 from typing import TYPE_CHECKING
@@ -52,8 +54,8 @@ def get_required_race_items(race, randomize_races: bool, randomize_cups: bool, p
 
 def set_all_entrance_rules(world: GarfKartWorld):
     # Store these in a variable to reduce redundancy
-    randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
-    randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
+    randomize_races = is_races_randomized(world) == RandomizerType.random
+    randomize_cups = is_cups_randomized(world) == RandomizerType.random
 
     # Set cup unlock rules
     for cup in CUP_NAMES:
@@ -124,8 +126,8 @@ def set_all_location_rules(world: GarfKartWorld):
                 set_rule(location, lambda state: state.has(f"Item Unlock - {item}", world.player))
 
 def set_completion_condition(world: GarfKartWorld):
-    randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
-    randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
+    randomize_races = is_races_randomized(world) == RandomizerType.random
+    randomize_cups = is_cups_randomized(world) == RandomizerType.random
 
     # Build on a single required_items dict, adding required items depending
     # on various victory conditions, this is nice because a lot of them have

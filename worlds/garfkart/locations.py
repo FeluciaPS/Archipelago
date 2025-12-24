@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 
 from BaseClasses import Location
 from .data import KART_NAMES, CHARACTER_NAMES, CUP_NAMES, RACE_NAMES
+from .options import is_cups_randomized, is_races_randomized
 
 
 # Locations for winning cups are short enough to hardcode instead of generating
@@ -124,8 +125,8 @@ def create_all_locations(world: GarfKartWorld) -> None:
     create_events(world)
 
 def create_regular_locations(world: GarfKartWorld) -> None:
-    randomize_races = world.options.randomize_races == "races" or world.options.randomize_races == "cups_and_races"
-    randomize_cups = world.options.randomize_races == "cups" or world.options.randomize_races == "cups_and_races"
+    randomize_races = is_races_randomized(world)
+    randomize_cups = is_cups_randomized(world)
 
     if world.options.randomize_characters:
         region = world.get_region("Menu")
