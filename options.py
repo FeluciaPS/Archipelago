@@ -3,6 +3,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, Visibility
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .world import GarfKartWorld
+
+
 ##
 # Goal Options
 ##
@@ -268,3 +273,26 @@ option_groups = [
         [RandomizeItems, TrapPercentage, DeathLink],
     ),
 ]
+
+class RandomizerType:
+    not_random = 0
+    locations_only = 1
+    random = 2
+
+def is_races_randomized(world: GarfKartWorld):
+    if world.options.randomize_races in ["races", "cups_and_races"]:
+        return RandomizerType.random
+    
+    if world.options.goal == "races":
+        return RandomizerType.locations_only
+    
+    return RandomizerType.not_random
+
+def is_cups_randomized(world: GarfKartWorld):
+    if world.options.randomize_races in ["cups", "cups_and_races"]:
+        return RandomizerType.random
+    
+    if world.options.goal == "grand_prix":
+        return RandomizerType.locations_only
+    
+    return RandomizerType.not_random
