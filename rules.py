@@ -123,7 +123,7 @@ def set_all_location_rules(world: GarfKartWorld):
         else:
             for item in ITEM_NAMES:
                 location = world.get_location(f'Find Item: {item}')
-                set_rule(location, lambda state: state.has(f"Item Unlock - {item}", world.player))
+                set_rule(location, lambda state, itemname=item: state.has(f"Item Unlock - {itemname}", world.player))
 
 def set_completion_condition(world: GarfKartWorld):
     randomize_races = is_races_randomized(world) == RandomizerType.random
