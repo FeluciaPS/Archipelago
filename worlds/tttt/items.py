@@ -3,12 +3,17 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from BaseClasses import Item, ItemClassification
+from .data.items import ITEM_IDS
 
 if TYPE_CHECKING:
     from .world import TTTTWorld
 
-ITEM_NAME_TO_ID = {}
+def get_item_ids_by_name(names: list[str]):
+    result = {}
 
+    for name in names:
+        result[name] = ITEM_IDS[name]
+        
 class TTTTItem(Item):
     game = "Tiny Terry's Turbo Trip"
 
