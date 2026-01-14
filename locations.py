@@ -180,7 +180,7 @@ def create_regular_locations(world: GarfKartWorld) -> None:
             region.add_locations(location_data, GarfKartLocation)
 
         # Add hat locations
-        if world.options.randomize_hats in "progressive":
+        if world.options.randomize_hats == "progressive":
             location_data = get_location_names_with_ids([
                 f"{race}: Bronze Hat Unlock",
                 f"{race}: Silver Hat Unlock",
