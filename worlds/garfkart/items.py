@@ -291,12 +291,6 @@ def create_itempool(world: GarfKartWorld) -> None:
             world.create_item(f'Unlock {hat}') for hat in HAT_NAMES
         ]
 
-    if world.options.randomize_hats == "on":
-        hat_tiers = ["Bronze", "Silver", "Gold"]
-        itempool += [
-            world.create_item(f'{hat} - {tier}') for hat in HAT_NAMES for tier in hat_tiers
-        ]
-
     # Spoiler randomizer items
     if world.options.randomize_spoilers == "progressive":
         itempool += [
@@ -306,12 +300,6 @@ def create_itempool(world: GarfKartWorld) -> None:
     if world.options.randomize_spoilers == "combine_tiers":
         itempool += [
             world.create_item(f'Unlock {spoiler}') for spoiler in SPOILER_NAMES
-        ]
-
-    if world.options.randomize_spoilers == "on":
-        spoiler_tiers = ["Bronze", "Silver", "Gold"]
-        itempool += [
-            world.create_item(f'{spoiler} - {tier}') for spoiler in SPOILER_NAMES for tier in spoiler_tiers
         ]
 
     # Item randomizer!
