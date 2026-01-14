@@ -145,7 +145,7 @@ def create_regular_locations(world: GarfKartWorld) -> None:
             region.add_locations(location_data, GarfKartLocation)
 
         # Add spoiler unlock locations
-        if world.options.randomize_spoilers in ["combine_tiers", "progressive"]:
+        if world.options.randomize_spoilers == "progressive":
             location_data = get_location_names_with_ids([
                 f'{cup}: Unlock Bronze Spoiler (1)',
                 f'{cup}: Unlock Bronze Spoiler (2)',
@@ -180,7 +180,7 @@ def create_regular_locations(world: GarfKartWorld) -> None:
             region.add_locations(location_data, GarfKartLocation)
 
         # Add hat locations
-        if world.options.randomize_hats in ["combine_tiers", "progressive"]:
+        if world.options.randomize_hats in "progressive":
             location_data = get_location_names_with_ids([
                 f"{race}: Bronze Hat Unlock",
                 f"{race}: Silver Hat Unlock",
