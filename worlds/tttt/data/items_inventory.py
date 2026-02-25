@@ -98,8 +98,11 @@ MISC_ITEM_NAMES = [
     "Turbo Upgrade",
     "Para Glider",
     "Government Document",
-    "Terry Apartment Keys",
     "Sprankelwater Flag",
+]
+
+KEY_ITEM_NAMES = [
+    "Terry Apartment Keys"
 ]
 
 # Turbo Junk item names
@@ -130,7 +133,8 @@ ALL_INVENTORY_ITEM_NAMES = [
     *MISC_ITEM_NAMES,
     *TURBO_JUNK_ITEM_NAMES,
     *MONEY_ITEM_NAMES,
-    *MUSHROOM_CHIME_ITEM_NAMES
+    *MUSHROOM_CHIME_ITEM_NAMES,
+    *KEY_ITEM_NAMES
 ]
 
 BASE_ITEM_IDS = {

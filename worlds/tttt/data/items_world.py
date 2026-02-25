@@ -24,3 +24,21 @@ TRASH_CAN_UNLOCK_ITEM_NAMES = [
     "Trash Can Unlock: Snekfret",   # Beach shop guy
     "Trash Can Unlock: Jatkleuter", # Car resell kid
 ]
+
+WORLD_MECHANIC_UNLOCK_ITEM_NAMES = [
+    "Wind Tunnel: Job Application Center",
+    "Wind Tunnel: Buitenrot",
+    "Wind Tunnel: Braklam",
+    "Parasols",
+    "Weaker Car Locks",
+]
+
+WORLD_ITEM_NAMES = [
+    *DIG_SPOT_ITEM_NAMES,
+    *TRASH_CAN_UNLOCK_ITEM_NAMES,
+    *WORLD_MECHANIC_UNLOCK_ITEM_NAMES,
+]
+
+BASE_ITEM_IDS = [
+
+]

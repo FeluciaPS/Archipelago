@@ -24,4 +24,14 @@ def set_all_location_rules(world: TTTTWorld) -> None:
 
 
 def set_completion_condition(world: TTTTWorld) -> None:
-    pass
+    # Redundant if statement because no other goals are planned right now
+    if world.options.goal == "space":
+        world.multiworld.completion_condition[world.player] = lambda state: state.has_all_counts({
+            "Turbo Upgrade": world.options.turbo_requirement
+        }, world.player)
+
+    else:
+        # Exact same goal because I don't like it when there's if statements without a fallback
+        world.multiworld.completion_condition[world.player] = lambda state: state.has_all_counts({
+            "Turbo Upgrade": world.options.turbo_requirement
+        }, world.player)
