@@ -3,7 +3,7 @@ from __future__ import annotations
 # Logic goes here
 # Logic goes here
 
-from .items import get_n_puzzle_pieces
+from .items import get_n_named_puzzle_pieces
 from .data import KART_NAMES, CHARACTER_NAMES, CUP_NAMES, CUPS_BY_RACE, ITEM_NAMES, PUZZLE_PIECE_REQUIREMENTS, RACE_NAMES, RACES_BY_CUP, PuzzlePieceRequirements
 from .options import RandomizerType, is_cups_randomized, is_races_randomized
 
@@ -156,7 +156,7 @@ def set_completion_condition(world: GarfKartWorld):
         pass
 
     if world.options.goal == "puzzle_piece_hunt":
-        puzzle_pieces_in_pool = get_n_puzzle_pieces(world.options.puzzle_piece_count)
+        puzzle_pieces_in_pool = get_n_named_puzzle_pieces(world.options.puzzle_piece_count)
         for puzzle_piece in puzzle_pieces_in_pool:
             required_items[puzzle_piece] = 1
 

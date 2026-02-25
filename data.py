@@ -1,6 +1,8 @@
 """Contains data objects used to generate items, locations, and rules"""
 from __future__ import annotations
-
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .world import GarfKartWorld
 
 # List of race names in order of appearance
 RACE_NAMES = [
@@ -199,3 +201,17 @@ PUZZLE_PIECE_REQUIREMENTS = {
         3: PuzzlePieceRequirements.Spring,
     },
 }
+
+def get_random_stat(world: GarfKartWorld, mean, min_value=-25, max_value=25, std_dev=15):
+    if not (min_value <= mean <= max_value):
+        raise ValueError("Normal distribution mean must be within the min/max boundaries.")
+
+    # Reroll up to 5 times if the value is outside the boundaries
+    for _ in range(5):
+        value = world.random.gauss(mean, std_dev)
+        if min_value <= value <= max_value:
+            return value
+
+    # In the unlikely event that it's still outside the boundaries, just 
+    # clamp it 
+    return max(min_value, min(value, max_value))

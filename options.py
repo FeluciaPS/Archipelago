@@ -156,21 +156,75 @@ class RandomizeSpoilers(Choice):
     option_progressive = 1
     option_combine_tiers = 2
 
+class StatRandomizer(Choice):
+    """
+    Randomizes the top speed, acceleration, and handling for Karts and/or Characters
+
+    - Off: Karts and characters use their default values
+    - Karts: Randomizes kart stats, not characters
+    - Characters: Randomizes character stats, not karts
+    - Both: Randomizes stats for both karts and characters.
+    """
+    display_name = "Stat Randomizer"
+    default = 0
+
+    option_off = 0
+    option_karts  = 1
+    option_characters = 2
+    option_both = 3
+
+class RandomStatValues(Choice):
+    """
+    Choose how high you want randomized stats to be. Note that these are just
+    averages and outliers may still happen, they're just less likely.
+
+    - Low: Stats are generally much lower than the base game
+    - Medium: Stats are generally around the same as the base game
+    - High: Stats are generally much higher than the base game
+    """
+    display_name = "Random Stat Values"
+    default = 1
+
+    option_low = 0
+    option_medium = 1
+    option_high = 2
+
+class SingleLapMode(Toggle):
+    """
+    Races only have a single lap. This makes the game significantly harder, 
+    especially on weak kart combos.
+
+    This overrides Lap Count setting
+    """
+    display_name = "Single Lap Mode"
+
 class LapCount(Range):
     """
-    Modifies the amount of laps in a race 
+    Modifies the amount of laps in a race, has no effect if single lap mode is on.
     """
     display_name = "Lap Count"
     default = 3
 
-    range_start = 1
+    range_start = 2
     range_end = 10
 
 class DisableCPUItems(Toggle):
     """
     Prevents CPUs from using items for a less chaotic experience.
+
+    Has no effect if Item Mania is enabled.
     """
     display_name = "Disable CPU Items"
+
+class ItemMania(Toggle):
+    """
+    CPUs will always get 3 copies of items they get from item boxes. CPU items can't be
+    disabled if this option is selected.
+
+    !!!WARNING!!! This makes the game significantly harder and more frustrating to play,
+    not for the faint of heart
+    """
+    display_name = "Item Mania"
 
 class SpringsOnly(Toggle):
     """
@@ -188,6 +242,13 @@ class RandomizeItems(Toggle):
     Always starts with one item unlocked, unless Springs Only is enabled.
     """
     display_name = "Randomize Items"
+
+class LapSanity(Toggle):
+    """
+    Adds checks for finishing a lap in first place, adding anywhere between 1 and 10
+    filler items to the pool per race, for a total of 16 to 160 extra locations
+    """
+    display_name = "Lap Sanity"
 
 class TrapPercentage(Range):
     visibility = Visibility.none
@@ -227,10 +288,14 @@ class GarfKartOptions(PerGameCommonOptions):
     randomize_karts: RandomizeKarts
     randomize_hats: RandomizeHats
     randomize_spoilers: RandomizeSpoilers
+    stat_randomizer: StatRandomizer
+    random_stat_values: RandomStatValues
 
     # Game Options
+    single_lap_mode: SingleLapMode
     lap_count: LapCount
     disable_cpu_items: DisableCPUItems
+    item_mania: ItemMania
     springs_only: SpringsOnly
     """
     Other game option ideas:
@@ -243,6 +308,7 @@ class GarfKartOptions(PerGameCommonOptions):
 
     # Other Randomizer Options
     randomize_items: RandomizeItems
+    lap_sanity: LapSanity
     trap_percentage: TrapPercentage
     death_link: DeathLink
 
@@ -262,15 +328,15 @@ option_groups = [
     ),
     OptionGroup(
         "Character Options",
-        [RandomizeCharacters, RandomizeKarts, RandomizeHats, RandomizeSpoilers]
+        [RandomizeCharacters, RandomizeKarts, RandomizeHats, RandomizeSpoilers, StatRandomizer, RandomStatValues]
     ),
     OptionGroup(
         "Game Options",
-        [LapCount, DisableCPUItems, SpringsOnly],
+        [SingleLapMode, LapCount, DisableCPUItems, ItemMania, SpringsOnly],
     ),
     OptionGroup(
         "Other Randomizer Options",
-        [RandomizeItems, TrapPercentage, DeathLink],
+        [RandomizeItems, LapSanity, TrapPercentage, DeathLink],
     ),
 ]
 
