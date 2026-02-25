@@ -22,7 +22,9 @@ from .options import RandomizerType, is_cups_randomized, is_races_randomized
 
 # Puzzle Pieces are named by race and numbered 1-3 to match the order 
 # in which they are displayed in-game
-PUZZLE_PIECE_TABLE = {}
+PUZZLE_PIECE_TABLE = {
+    "Puzzle Piece": 0
+}
 COURSE_ITEM_TABLE = {
     "Progressive Course Unlock": 100
 }
@@ -134,7 +136,7 @@ class GarfKartItem(Item):
 ############# 
 # Functions #
 #############
-def get_n_puzzle_pieces(n) -> list[str]:
+def get_n_named_puzzle_pieces(n) -> list[str]:
     puzzle_pieces = []
 
     if n == 0:
@@ -166,8 +168,13 @@ def create_randomized_item_state(world: GarfKartWorld, items):
 
 def get_random_filler_item(world: GarfKartWorld) -> str:
     # TODO: Include traps
-    # TODO: Optionally include puzzle pieces, since they're filler when not the goal
-    return world.random.choice(list(FILLER_ITEM_TABLE))
+
+    items = list(FILLER_ITEM_TABLE)
+
+    if world.options.randomize_puzzle_pieces and world.options.goal != "puzzle_piece_hunt":
+        items += ["Puzzle Piece"]
+
+    return world.random.choice(items)
 
 def create_item_object(world: GarfKartWorld, name: str):
     classification = ItemClassification.useful
@@ -177,13 +184,19 @@ def create_item_object(world: GarfKartWorld, name: str):
         classification = ItemClassification.progression
 
     # Deprioritize puzzle pieces
-    if name in PUZZLE_PIECE_TABLE:
+    if name in PUZZLE_PIECE_TABLE and False:
         if world.options.randomize_puzzle_pieces:
-            puzzle_pieces_in_logic = get_n_puzzle_pieces(world.options.puzzle_piece_count)
+            puzzle_pieces_in_logic = get_n_named_puzzle_pieces(world.options.puzzle_piece_count)
             if name in puzzle_pieces_in_logic:
                 classification = ItemClassification.progression_deprioritized_skip_balancing
             else:
                 classification = ItemClassification.filler
+        else:
+            classification = ItemClassification.filler
+
+    if name == "Puzzle Piece":
+        if world.options.goal == "puzzle_piece_hunt":
+            classification = ItemClassification.progression_deprioritized_skip_balancing
         else:
             classification = ItemClassification.filler
 
@@ -253,16 +266,9 @@ def create_itempool(world: GarfKartWorld) -> None:
 
     # randomize_puzzle_pieces is automatically set to True if the goal is 
     # Puzzle Piece Hunt, so we don't need to check both.
-    # TODO: Above comment is lying. We need to check both if we want to put them in the filler pool
     if world.options.randomize_puzzle_pieces:
-        puzzle_pieces_in_logic = get_n_puzzle_pieces(world.options.puzzle_piece_count)
         itempool += [
-            world.create_item(piece) for piece in puzzle_pieces_in_logic
-        ]
-
-        world.unused_puzzle_pieces = [
-            item for item in PUZZLE_PIECE_TABLE
-                if item not in puzzle_pieces_in_logic
+            world.create_item("Puzzle Piece") for _ in range(world.options.puzzle_piece_count)
         ]
 
     # Character and Kart randomizer

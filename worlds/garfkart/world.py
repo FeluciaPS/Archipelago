@@ -4,6 +4,7 @@ from collections.abc import Mapping
 from typing import Any
 from Options import OptionError
 from worlds.AutoWorld import World
+from .data import CHARACTER_NAMES, KART_NAMES, get_random_stat
 
 from . import items, locations, options, regions, rules, web_world
 
@@ -29,9 +30,44 @@ class GarfKartWorld(World):
 
     origin_region_name = "Menu"
 
-    # Helper variable stores puzzle pieces that aren't logically required, these
-    # may later be used as filler items in the filler item pool.
-    unused_puzzle_pieces = []
+    # Stat randomizer stuff
+    randomized_stats = {}
+
+    def generate_random_stats(self):
+        self.randomized_stats = {}
+
+        mean = 0
+        match self.options.random_stat_values:
+            case "low":
+                mean = -15
+            case "medium":
+                mean = 0
+            case "high":
+                mean = 15
+
+        if self.options.stat_randomizer in ["karts", "both"]:
+            random_kart_stats = {}
+            for name in KART_NAMES:
+                # Okay listen, it's called Maniability in the game code so we're
+                # using maniability here. It's handling, it's just handling, but
+                # this makes the mod easier to deal with.
+                random_kart_stats[name] = {
+                    "Acceleration": get_random_stat(mean),
+                    "Speed": get_random_stat(mean),
+                    "Maniability": get_random_stat(mean)
+                }
+            self.randomized_stats["karts"] = random_kart_stats
+                
+        if self.options.stat_randomizer in ["characters", "both"]:
+            random_character_stats = {}
+            for name in CHARACTER_NAMES:
+                # Again, maniability = handling
+                random_character_stats[name] = {
+                    "Acceleration": get_random_stat(mean),
+                    "Speed": get_random_stat(mean),
+                    "Maniability": get_random_stat(mean)
+                }
+            self.randomized_stats["characters"] = random_character_stats
 
     # TODO: this shouldn't end up in v1.0
     def pre_fill(self):
@@ -49,6 +85,12 @@ class GarfKartWorld(World):
     def generate_early(self):
         if self.options.goal == "puzzle_piece_hunt":
             self.options.randomize_puzzle_pieces.value = True
+
+        if self.options.item_mania:
+            self.options.disable_cpu_items = False
+
+        # Stat randomizer
+        self.generate_random_stats()
 
     def create_regions(self) -> None:
         regions.create_and_connect_regions(self)
@@ -87,14 +129,19 @@ class GarfKartWorld(World):
             "randomize_karts",
             "randomize_hats",
             "randomize_spoilers",
+            "stat_randomizer",
+            "random_stat_values",
 
             # Game Options
+            "single_lap_mode",
             "lap_count",
             "disable_cpu_items",
+            "item_mania"
             "springs_only",
 
             # Other Randomizer Options
             "randomize_items",
+            "lap_sanity",
             "trap_percentage",
             "death_link"
         )
