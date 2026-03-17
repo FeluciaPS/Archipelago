@@ -52,9 +52,9 @@ class GarfKartWorld(World):
                 # using maniability here. It's handling, it's just handling, but
                 # this makes the mod easier to deal with.
                 random_kart_stats[name] = {
-                    "Acceleration": get_random_stat(mean),
-                    "Speed": get_random_stat(mean),
-                    "Maniability": get_random_stat(mean)
+                    "Acceleration": get_random_stat(self, mean),
+                    "Speed": get_random_stat(self, mean),
+                    "Maniability": get_random_stat(self, mean)
                 }
             self.randomized_stats["karts"] = random_kart_stats
                 
@@ -63,9 +63,9 @@ class GarfKartWorld(World):
             for name in CHARACTER_NAMES:
                 # Again, maniability = handling
                 random_character_stats[name] = {
-                    "Acceleration": get_random_stat(mean),
-                    "Speed": get_random_stat(mean),
-                    "Maniability": get_random_stat(mean)
+                    "Acceleration": get_random_stat(self, mean),
+                    "Speed": get_random_stat(self, mean),
+                    "Maniability": get_random_stat(self, mean)
                 }
             self.randomized_stats["characters"] = random_character_stats
 
@@ -89,6 +89,9 @@ class GarfKartWorld(World):
         if self.options.item_mania:
             self.options.disable_cpu_items = False
 
+        if self.options.single_lap_mode:
+            self.options.lap_count.value = 1
+
         # Stat randomizer
         self.generate_random_stats()
 
@@ -110,7 +113,11 @@ class GarfKartWorld(World):
     
     # Copied from APQuest for the time being
     def fill_slot_data(self) -> Mapping[str, Any]:
-        return self.options.as_dict(
+        slot_data = dict()
+
+        slot_data["randomized_stats"] = self.randomized_stats
+
+        slot_data["options"] = self.options.as_dict(
             # Goal Options
             "goal",
             "cc_requirement",
@@ -136,7 +143,7 @@ class GarfKartWorld(World):
             "single_lap_mode",
             "lap_count",
             "disable_cpu_items",
-            "item_mania"
+            "item_mania",
             "springs_only",
 
             # Other Randomizer Options
@@ -145,3 +152,5 @@ class GarfKartWorld(World):
             "trap_percentage",
             "death_link"
         )
+
+        return slot_data
