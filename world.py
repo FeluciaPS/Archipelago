@@ -87,7 +87,7 @@ class GarfKartWorld(World):
             self.options.randomize_puzzle_pieces.value = True
 
         if self.options.item_mania:
-            self.options.disable_cpu_items = False
+            self.options.disable_cpu_items.value = False
 
         if self.options.single_lap_mode:
             self.options.lap_count.value = 1
