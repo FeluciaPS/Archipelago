@@ -31,6 +31,7 @@ SPOILER_UNLOCK_LOCATION_TABLE = {}
 PUZZLE_PIECE_LOCATION_TABLE = {}
 COURSE_WIN_LOCATION_TABLE = {}
 TIME_TRIAL_LOCATION_TABLE = {}
+LAP_SANITY_LOCATION_TABLE = {}
 
 # Generate 8 spoiler unlock locations for every cup
 for index, cup in enumerate(CUP_NAMES):
@@ -49,11 +50,15 @@ for index, cup in enumerate(CUP_NAMES):
 # - Hat unlock (gold/silver/bronze)
 # - Time trials (platinum/gold/silver/bronze)
 # - Puzzle piece 1-3
+# - Lap Sanity locations
 for index, race in enumerate(RACE_NAMES):
     # 3 puzzle pieces per race
     for n in range(3):
         name = f'{race}: Puzzle Piece {n + 1}'
         PUZZLE_PIECE_LOCATION_TABLE[name] = 3 * index + n + 201
+
+    for n in range(10):
+        LAP_SANITY_LOCATION_TABLE[name] = 10 * index + n + 500
 
     # Cource victory location
     COURSE_WIN_LOCATION_TABLE[f'{race}: Victory'] = index + 1
@@ -101,6 +106,7 @@ LOCATION_NAME_TO_ID = {
     **COURSE_WIN_LOCATION_TABLE,
     **TIME_TRIAL_LOCATION_TABLE,
     **PUZZLE_PIECE_LOCATION_TABLE,
+    **LAP_SANITY_LOCATION_TABLE,
     **SPOILER_UNLOCK_LOCATION_TABLE,
     **HAT_UNLOCK_LOCATION_TABLE,
     **CUP_LOCATION_TABLE,
