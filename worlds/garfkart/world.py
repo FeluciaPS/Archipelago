@@ -89,8 +89,9 @@ class GarfKartWorld(World):
         if self.options.item_mania:
             self.options.disable_cpu_items.value = False
 
+        self.lap_count = self.options.lap_count.value
         if self.options.single_lap_mode:
-            self.options.lap_count.value = 1
+            self.lap_count = 1
 
         # Stat randomizer
         self.generate_random_stats()
@@ -152,5 +153,7 @@ class GarfKartWorld(World):
             "trap_percentage",
             "death_link"
         )
+
+        slot_data["options"]["lap_count"] = self.lap_count
 
         return slot_data
