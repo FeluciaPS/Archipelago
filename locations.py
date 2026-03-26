@@ -58,7 +58,7 @@ for index, race in enumerate(RACE_NAMES):
         PUZZLE_PIECE_LOCATION_TABLE[name] = 3 * index + n + 201
 
     for n in range(10):
-        LAP_SANITY_LOCATION_TABLE[f"{name} - Lap {n}"] = 10 * index + n + 500
+        LAP_SANITY_LOCATION_TABLE[f"{race} - Lap {n + 1}"] = 10 * index + n + 500
 
     # Cource victory location
     COURSE_WIN_LOCATION_TABLE[f'{race}: Victory'] = index + 1
@@ -199,7 +199,7 @@ def create_regular_locations(world: GarfKartWorld) -> None:
             region.add_locations(location_data, GarfKartLocation)
 
         if world.options.lap_sanity:
-            location_data = get_location_names_with_ids([f"{race} - Lap {n}" for n in range(world.lap_count)])
+            location_data = get_location_names_with_ids([f"{race} - Lap {n + 1}" for n in range(world.lap_count)])
             region.add_locations(location_data, GarfKartLocation)
             
     if world.options.randomize_items:
