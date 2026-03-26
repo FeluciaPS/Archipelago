@@ -23,7 +23,7 @@ from .options import RandomizerType, is_cups_randomized, is_races_randomized
 # Puzzle Pieces are named by race and numbered 1-3 to match the order 
 # in which they are displayed in-game
 PUZZLE_PIECE_TABLE = {
-    "Puzzle Piece": 0
+    "Puzzle Piece": 49
 }
 COURSE_ITEM_TABLE = {
     "Progressive Course Unlock": 100
