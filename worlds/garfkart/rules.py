@@ -18,6 +18,7 @@ def set_all_rules(world: GarfKartWorld):
     set_all_entrance_rules(world)
     set_all_location_rules(world)
     set_completion_condition(world)
+    set_item_rules(world)
 
 def get_required_cup_items(cup: str, randomize_races: bool, randomize_cups: bool, progressive_cups: bool) -> dict[str, int]:
     items = {}
@@ -156,10 +157,32 @@ def set_completion_condition(world: GarfKartWorld):
         pass
 
     if world.options.goal == "puzzle_piece_hunt":
-        puzzle_pieces_in_pool = get_n_named_puzzle_pieces(world.options.puzzle_piece_count)
-        for puzzle_piece in puzzle_pieces_in_pool:
-            required_items[puzzle_piece] = 1
+        required_items["Puzzle Piece"] = world.options.puzzle_piece_count
 
     world.multiworld.completion_condition[world.player] = lambda state: state.has_all_counts(required_items, world.player)
+
+
+def set_item_rules(world: GarfKartWorld):
+    from .data import RACE_NAMES, CUP_NAMES
+
+    for region in world.multiworld.regions:
+        if region.name in RACE_NAMES and is_races_randomized(world):
+            unlock_item = f"Course Unlock - {region.name}"
+            for location in region.locations:
+                original_rule = location.item_rule
+                def rule(item, orig=original_rule, ui=unlock_item):
+                    return (orig(item) if orig else True) and item.name != ui
+                location.item_rule = rule
+
+        if region.name in CUP_NAMES and is_cups_randomized(world):
+            if world.options.progressive_cups:
+                unlock_item = "Progressive Cup Unlock"
+            else:
+                unlock_item = f"Cup Unlock - {region.name}"
+            for location in region.locations:
+                original_rule = location.item_rule
+                def rule(item, orig=original_rule, ui=unlock_item):
+                    return (orig(item) if orig else True) and item.name != ui
+                location.item_rule = rule
 
     
