@@ -88,6 +88,9 @@ class RandomizeRaces(Choice):
     - Cups: Grand Prix cup unlocks are shuffled into the item pool, races unlock when you unlock their cup
     - Races: Race unlocks are shuffled into the item pool, cups unlock when you've unlocked all races in the cup
     - Cups and Races: Race and cup unlocks are shuffled into the item pool, playing a cup requires all 4 races and the cup item
+
+    Note: "Cups and Races" is incompatible with Progressive Cups - if both are enabled,
+    Progressive Cups will be automatically disabled.
     """
     display_name = "Randomize Races"
     default = 0
@@ -102,7 +105,9 @@ class ProgressiveCups(Toggle):
     every time a "Cup Unlock" item is found.
     Turning this off unlocks cups in random order with their specific items.
 
-    This option does nothing if cups aren't randomized
+    This option does nothing if cups aren't randomized.
+
+    Note: This option is automatically disabled if Randomize Races is set to "Cups and Races".
     """
     display_name = "Progressive Cups"
 
@@ -229,17 +234,16 @@ class ItemMania(Toggle):
 class SpringsOnly(Toggle):
     """
     Item boxes can only give springs. This makes puzzle piece hunting a lot easier.
-
-    If Randomize Items is enabled, you start without springs unlocked and item boxes
-    do nothing.
     """
     display_name = "Springs Only"
 
 class RandomizeItems(Toggle):
     """
     Randomizes the items that can be received from item boxes and adds locations for
-    acquiring each item from an item box for the first time. 
-    Always starts with one item unlocked, unless Springs Only is enabled.
+    acquiring each item from an item box for the first time.
+    Always starts with one item unlocked.
+    
+    Incompatible with springs only.
     """
     display_name = "Randomize Items"
 

@@ -89,6 +89,14 @@ class GarfKartWorld(World):
         if self.options.item_mania:
             self.options.disable_cpu_items.value = False
 
+        # Springs Only and Randomize Items are incompatible
+        if self.options.springs_only:
+            self.options.randomize_items.value = False
+
+        # Progressive Cups and Cups & Races are incompatible - too much fill pressure
+        if self.options.progressive_cups and self.options.randomize_races == "cups_and_races":
+            self.options.progressive_cups.value = False
+
         self.lap_count = self.options.lap_count.value
         if self.options.single_lap_mode:
             self.lap_count = 1
