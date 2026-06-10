@@ -524,6 +524,7 @@ def call_generate(yaml_path, args, output_path):
             "spoiler": 1,
             "outputpath": output_path,
             "race": False,
+            "allow_quantity": settings.generator.allow_quantity,
             "meta_file_path": "meta-doesnt-exist.yaml",
             "log_level": "info",
             "yaml_output": 1,

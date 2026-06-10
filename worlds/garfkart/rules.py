@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 # Logic goes here
-# Logic goes here
 
-from .items import get_n_named_puzzle_pieces
 from .data import KART_NAMES, CHARACTER_NAMES, CUP_NAMES, CUPS_BY_RACE, ITEM_NAMES, PUZZLE_PIECE_REQUIREMENTS, RACE_NAMES, RACES_BY_CUP, PuzzlePieceRequirements
 from .options import RandomizerType, is_cups_randomized, is_races_randomized
 
-from worlds.generic.Rules import set_rule
+from rule_builder.rules import Has, HasAllCounts, HasAny
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -70,7 +68,7 @@ def set_all_entrance_rules(world: GarfKartWorld):
         if len(required_items) == 0:
             continue
 
-        set_rule(cup_entrance, lambda state, items=required_items: state.has_all_counts(items, world.player))
+        world.set_rule(cup_entrance, HasAllCounts(required_items))
 
     # Set race unlock rules
     for race in RACE_NAMES:
@@ -85,7 +83,7 @@ def set_all_entrance_rules(world: GarfKartWorld):
         if len(required_items) == 0:
             continue
 
-        set_rule(race_entrance, lambda state, items=required_items: state.has_all_counts(items, world.player))
+        world.set_rule(race_entrance, HasAllCounts(required_items))
 
 def set_all_location_rules(world: GarfKartWorld):
 
@@ -93,13 +91,13 @@ def set_all_location_rules(world: GarfKartWorld):
     if world.options.randomize_characters:
         for character in CHARACTER_NAMES:
             location = world.get_location(f'Win Race as {character}')
-            set_rule(location, lambda state, c=character: state.has(c, world.player))
+            world.set_rule(location, Has(character))
 
     # And same for karts
     if world.options.randomize_karts:
         for kart in KART_NAMES:
             location = world.get_location(f'Win Race with {kart}')
-            set_rule(location, lambda state, k=kart: state.has(k, world.player))
+            world.set_rule(location, Has(kart))
 
     # Certain puzzle pieces require a Spring or Lasagna item to be accessed
     if world.options.randomize_puzzle_pieces and world.options.randomize_items:
@@ -113,17 +111,17 @@ def set_all_location_rules(world: GarfKartWorld):
                 if PUZZLE_PIECE_REQUIREMENTS[race][piece] == PuzzlePieceRequirements.Either and not world.options.springs_only:
                     required_items.append("Item Unlock - Lasagna")
 
-                set_rule(location, lambda state, items=required_items: state.has_any(items, world.player))
+                world.set_rule(location, HasAny(*required_items))
 
     # Item acquisition locations can't be accessed until you have the associated item
     if world.options.randomize_items:
         if world.options.springs_only:
             location = world.get_location("Find Item: Spring")
-            set_rule(location, lambda state: state.has("Item Unlock - Spring", world.player))
+            world.set_rule(location, Has("Item Unlock - Spring"))
         else:
             for item in ITEM_NAMES:
                 location = world.get_location(f'Find Item: {item}')
-                set_rule(location, lambda state, itemname=item: state.has(f"Item Unlock - {itemname}", world.player))
+                world.set_rule(location, Has(f"Item Unlock - {item}"))
 
 def set_completion_condition(world: GarfKartWorld):
     randomize_races = is_races_randomized(world) == RandomizerType.random
@@ -138,7 +136,7 @@ def set_completion_condition(world: GarfKartWorld):
         # The game can be completed if all cups can be reached
         for cup in CUP_NAMES:
             required_items = {
-                **required_items, 
+                **required_items,
                 **get_required_cup_items(cup, randomize_races, randomize_cups, world.options.progressive_cups)
             }
 
@@ -146,17 +144,18 @@ def set_completion_condition(world: GarfKartWorld):
         # All races need to be accessible to beat the game
         for race in RACE_NAMES:
             required_items = {
-                **required_items, 
+                **required_items,
                 **get_required_race_items(race, randomize_races, randomize_cups, world.options.progressive_cups)
             }
 
     if world.options.goal == "time_trials":
-        # TODO: Platinum time trials require specific items to beat, 
+        # TODO: Platinum time trials require specific items to beat,
         # but for now we just assume they're always beatable
         pass
 
     if world.options.goal == "puzzle_piece_hunt":
-        required_items["Puzzle Piece"] = world.options.puzzle_piece_count
+        required_items["Puzzle Piece"] = world.options.puzzle_piece_count.value
 
-    world.multiworld.completion_condition[world.player] = lambda state: state.has_all_counts(required_items, world.player)
-    
+    # HasAllCounts resolves an empty mapping to True_, matching the old
+    # state.has_all_counts({}) behaviour for goals without unlock requirements
+    world.set_completion_rule(HasAllCounts(required_items))

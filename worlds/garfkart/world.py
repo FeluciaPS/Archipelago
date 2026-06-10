@@ -30,6 +30,9 @@ class GarfKartWorld(World):
 
     origin_region_name = "Menu"
 
+    # Make UT generate without yaml
+    ut_can_gen_without_yaml = True
+
     # Stat randomizer stuff
     randomized_stats = {}
 
@@ -83,6 +86,19 @@ class GarfKartWorld(World):
             raise OptionError("There aren't any items in the item pool. Let Felucia know this is a bug.")
 
     def generate_early(self):
+        # Handle Universal Tracker support
+        ut_slot_options: dict[str, Any] | None = None
+        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if re_gen_passthrough and self.game in re_gen_passthrough:
+            slot_data: dict[str, Any] = re_gen_passthrough[self.game]
+            ut_slot_options = slot_data.get("options", {})
+            for key, value in ut_slot_options.items():
+                if key == "lap_count":
+                    continue
+                opt = getattr(self.options, key, None)
+                if opt is not None:
+                    setattr(self.options, key, opt.from_any(value))
+
         if self.options.goal == "puzzle_piece_hunt":
             self.options.randomize_puzzle_pieces.value = True
 
@@ -100,6 +116,10 @@ class GarfKartWorld(World):
         self.lap_count = self.options.lap_count.value
         if self.options.single_lap_mode:
             self.lap_count = 1
+
+        # Universal Tracker: use the exact lap count from the original gen
+        if ut_slot_options is not None and "lap_count" in ut_slot_options:
+            self.lap_count = ut_slot_options["lap_count"]
 
         # Stat randomizer
         self.generate_random_stats()
@@ -164,4 +184,10 @@ class GarfKartWorld(World):
 
         slot_data["options"]["lap_count"] = self.lap_count
 
+        return slot_data
+
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        # Returning a truthy value here tells Universal Tracker to re-generate
+        # the world with the slot data
         return slot_data
