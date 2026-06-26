@@ -202,13 +202,14 @@ PUZZLE_PIECE_REQUIREMENTS = {
     },
 }
 
-def get_random_stat(world: GarfKartWorld, mean, min_value=-25, max_value=25, std_dev=15):
+def get_random_stat(world: GarfKartWorld, mean, min_value=-30, max_value=25, std_dev=10):
     if not (min_value <= mean <= max_value):
         raise ValueError("Normal distribution mean must be within the min/max boundaries.")
 
     # Reroll up to 5 times if the value is outside the boundaries
     for _ in range(5):
         value = world.random.gauss(mean, std_dev)
+        value = round(value, 2)
         if min_value <= value <= max_value:
             return value
 

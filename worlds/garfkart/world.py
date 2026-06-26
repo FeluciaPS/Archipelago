@@ -42,7 +42,7 @@ class GarfKartWorld(World):
         mean = 0
         match self.options.random_stat_values:
             case "low":
-                mean = -15
+                mean = -20
             case "medium":
                 mean = 0
             case "high":
@@ -136,7 +136,21 @@ class GarfKartWorld(World):
 
     def create_item(self, name: str) -> items.GarfKartItem:
         return items.create_item_object(self, name)
-    
+
+    def write_spoiler(self, spoiler_handle):
+        if self.options.stat_randomizer in ["characters", "karts", "both"]:
+            spoiler_handle.write(f'\n\n{self.player_name}: Stat randomizer values (Accel, Speed, Handling)\n\n')
+
+            if self.options.stat_randomizer in ["characters", "both"]:
+                for name in CHARACTER_NAMES:
+                    stats = self.randomized_stats["characters"][name]
+                    spoiler_handle.write(f'{name}: {stats["Acceleration"]}, {stats["Speed"]}, {stats["Maniability"]}\n')
+
+            if self.options.stat_randomizer in ["karts", "both"]:
+                for name in KART_NAMES:
+                    stats = self.randomized_stats["karts"][name]
+                    spoiler_handle.write(f'{name}: {stats["Acceleration"]}, {stats["Speed"]}, {stats["Maniability"]}\n')
+
     def get_filler_item_name(self) -> str:
         return items.get_random_filler_item(self)
     

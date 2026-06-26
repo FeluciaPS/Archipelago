@@ -75,6 +75,9 @@ class RandomStatValues(Choice):
     - Low: Stats are generally much lower than the base game
     - Medium: Stats are generally around the same as the base game
     - High: Stats are generally much higher than the base game
+
+    !! WARNING: Setting this to low is extremely likely make certain vanilla 
+    time trial medals impossible !!
     """
     display_name = "Random Stat Values"
     default = 1
