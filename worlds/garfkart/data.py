@@ -132,7 +132,7 @@ ITEM_NAMES = [
     "Spring",
 ]
 
-# Some puzzle pieces logically require items which is relevant for the planned
+# Some puzzle pieces logically require items which is relevant for the
 # item randomizer
 class PuzzlePieceRequirements:
     Nothing = 0 # Probably unused 
@@ -150,7 +150,9 @@ PUZZLE_PIECE_REQUIREMENTS = {
         2: PuzzlePieceRequirements.Spring,
         3: PuzzlePieceRequirements.Either,
     },
-    "Palerock Lake": {},
+    "Palerock Lake": {
+        2: PuzzlePieceRequirements.Spring,
+    },
     "City Slicker": {
         1: PuzzlePieceRequirements.Spring,
         2: PuzzlePieceRequirements.Spring,
@@ -176,6 +178,7 @@ PUZZLE_PIECE_REQUIREMENTS = {
     "Sneak-a-Peak": {
         1: PuzzlePieceRequirements.Spring,
         2: PuzzlePieceRequirements.Spring,
+        3: PuzzlePieceRequirements.Either,
     },
     "Blazing Oasis": {
         1: PuzzlePieceRequirements.Spring,
@@ -191,7 +194,7 @@ PUZZLE_PIECE_REQUIREMENTS = {
         3: PuzzlePieceRequirements.Spring,
     },
     "Prohibited Site": {
-        1: PuzzlePieceRequirements.Spring,
+        2: PuzzlePieceRequirements.Spring,
         3: PuzzlePieceRequirements.Spring,
     },
     "Caskou Park": {
